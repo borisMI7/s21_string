@@ -55,7 +55,7 @@ END_TEST
 
 
 TCase *s21_memchr_create_tcase(void) {
-    TCase *temp_case = tcase_create("S21_MEMCHR_TESTING");
+    TCase *temp_case = tcase_create("S21_MEMCHR_TESTING:\n");
     tcase_add_test(temp_case, s21_memchr_test_number_1);
     tcase_add_test(temp_case, s21_memchr_test_number_2);
     tcase_add_test(temp_case, s21_memchr_test_number_3);

@@ -21,9 +21,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   int res = 0;
   while (p1 != S21_NULL && p2 != S21_NULL && !res && n) {
     if (*p1 != *p2) {
-      res = (int)*p1 > (int)*p2 ? 1 : -1;
-      n = 0;
-    } else if (*p1 == '\0' || *p2 == '\0') {
+      res = (int)*p1 - (int)*p2;
       n = 0;
     } else {
       p1++;
@@ -31,6 +29,8 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
       n--;
     }
   }
+  if (str1 == S21_NULL && str2 != S21_NULL) res = -1;
+  else if (str1 != S21_NULL && str2 == S21_NULL) res = 1;
   return res;
 }
 
