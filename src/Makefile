@@ -13,5 +13,5 @@ clean:
 
 test: s21_string.a tests/suite_test_runner.c tests/suite_test_runner.h
 	$(CC) $(FLAGS) -lcheck s21_string.a tests/suite_test_runner.c -o testing.out
-	./testing
+	./testing.out
 
