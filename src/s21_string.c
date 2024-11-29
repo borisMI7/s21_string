@@ -525,14 +525,14 @@ char *s21_strtok(char *str, const char *delim) {
 
   if (delim == S21_NULL || *delim == '\0') {
     result = next;
-    next += my_strlen_for_strtok(next);
+    next += s21_strlen(next);
   } else {
-    while (*next != '\0' && my_strchr(delim, *next)) {
+    while (*next != '\0' && s21_strchr(delim, *next)) {
       next++;
     }
     if (*next != '\0') {
       result = next;
-      while (*next != '\0' && !my_strchr(delim, *next)) {
+      while (*next != '\0' && !s21_strchr(delim, *next)) {
         next++;
       }
       if (*next != '\0') {
@@ -666,5 +666,6 @@ int is_trim_symbol(const char *trim_chars, char symbol) {
   }
   return result;
 }
+
 
 // int main() { return 0; }

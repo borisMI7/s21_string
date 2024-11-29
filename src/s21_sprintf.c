@@ -11,17 +11,18 @@ typedef long int s21_lint;
 typedef short int s21_sint;
 
 typedef struct spec {
-  s21_size_t width;  // ширина вывода
-  int left_allig;    // выравнивание слева или справа
-  int accuracy;  // количество знаков после запятой
-  int print_plus;  // печатать ли плюсы
-  int space;  // печатать ли пробел если знак не выведен
-  int hash_spec;   // флаг #
-  int is_zero;     // Является ли число не нулём
-  int field_zero;  // нужно ли  заполнять слева нулями
-  char spec;       // какой спецификатор
-  char spec_size;  // длина спецификатора 
+  size_t width;   // ширина вывода
+  int left_allig; // выравнивание слева или справа
+  int accuracy;   // количество знаков после запятой
+  int print_plus; // печатать ли плюсы
+  int space; // печатать ли пробел если знак не выведен
+  int hash_spec;  // флаг #
+  int is_zero;    // Является ли число не нулём
+  int field_zero; // нужно ли  заполнять слева нулями
+  char spec;      // какой спецификатор
+  char spec_size; // длина спецификатора 
 } spec;
+
 
 void apply_padding(char **result, size_t curr_len, size_t padding_size,
                            char pad_char, int left_align) {
@@ -64,7 +65,7 @@ char *reallocate_and_shift(char **result, size_t *curr_len,
 
 void handle_numeric_specifiers(spec *sp, char **result, size_t *curr_len,
                                       size_t *padding_size) {
-  if (strchr("oxX", sp->spec) && sp->hash_spec && !sp->is_zero) {
+  if (s21_strchr("oxX", sp->spec) && sp->hash_spec && !sp->is_zero) {
     size_t realloc_size = (sp->spec == 'o') ? 1 : 2;
     if (*padding_size < realloc_size) {
       reallocate_and_shift(result, curr_len, realloc_size);
@@ -75,7 +76,7 @@ void handle_numeric_specifiers(spec *sp, char **result, size_t *curr_len,
     }
   }
 
-  if (strchr("dif", sp->spec) && (sp->print_plus || sp->space)) {
+  if (s21_strchr("dif", sp->spec) && (sp->print_plus || sp->space)) {
     char sign = sp->print_plus ? '+' : ' ';
     if (*padding_size < 1) {
       reallocate_and_shift(result, curr_len, 1);
@@ -89,14 +90,14 @@ char *format_string(spec *sp, char *buff) {
     return NULL;
   }
 
-  size_t curr_len = strlen(buff);
+  size_t curr_len = s21_strlen(buff);
   size_t padding_size = sp->width > curr_len ? sp->width - curr_len : 0;
   size_t result_size = curr_len + padding_size + 1;
 
   char *result = malloc(sizeof(char) * (result_size));
   if (result != NULL) {
-    memset(result, 0, result_size);
-    strcpy(result, buff);
+    s21_memset(result, 0, result_size);
+    s21_strcpy(result, buff);
 
     char pad_char = (sp->field_zero && !sp->left_allig) ? '0' : ' ';
     apply_padding(&result, curr_len, padding_size, pad_char, sp->left_allig);
@@ -398,6 +399,25 @@ char *vtoa(void *num, char *str) {
   s21_strcat(str, buf);
   return str;
 }
+
+int set_spec(spec *sp, char ch) {
+  int result = 0;
+  if (ch == '-') {
+    sp->left_allig = 1;
+  } else if (ch == '+') {
+    sp->print_plus = 1;
+  } else if (ch == ' ') {
+    sp->space = 1;
+  } else if (ch == '#') {
+    sp->hash_spec = 1;
+  } else if (ch == '0') {
+    sp->is_zero = 1;
+  } else {
+    result = 1;
+  }
+  return result;
+}
+
 
 void set_default_spec(spec *sp) {
   sp->width = 0;

@@ -12,7 +12,7 @@ START_TEST(s21_memchr_test_number_2) {
 }
 END_TEST
 START_TEST(s21_memchr_test_number_3) {
-    char str[] = "Aboba";
+    char str[20] = "Aboba";
     ck_assert_ptr_eq(memchr(str, 'o', 10), s21_memchr(str, 'o', 10));
 }
 END_TEST
@@ -27,7 +27,7 @@ START_TEST(s21_memchr_test_number_5) {
 }
 END_TEST
 START_TEST(s21_memchr_test_number_6) {
-    char str[] = "";
+    char str[5] = "";
     ck_assert_ptr_eq(memchr(str, 'o', 3), s21_memchr(str, 'o', 3));
 }
 END_TEST
@@ -37,7 +37,7 @@ START_TEST(s21_memchr_test_number_7) {
 }
 END_TEST
 START_TEST(s21_memchr_test_number_8) {
-    char str[] = "Aboba";
+    char str[12] = "Aboba";
     ck_assert_ptr_eq(memchr(str, '\0', 10), s21_memchr(str, '\0', 10));
 }
 END_TEST
@@ -49,6 +49,10 @@ END_TEST
 START_TEST(s21_memchr_test_number_10) {
     char str[] = "asdfg";
     ck_assert_ptr_eq(memchr(str, 'g', 6), s21_memchr(str, 'g', 6));
+}
+END_TEST
+START_TEST(s21_memchr_test_number_11) {
+    ck_assert_ptr_eq(S21_NULL, s21_memchr(S21_NULL, 'g', 6));
 }
 END_TEST
 
@@ -66,5 +70,6 @@ TCase *s21_memchr_create_tcase(void) {
     tcase_add_test(temp_case, s21_memchr_test_number_8);
     tcase_add_test(temp_case, s21_memchr_test_number_9);
     tcase_add_test(temp_case, s21_memchr_test_number_10);
+    tcase_add_test(temp_case, s21_memchr_test_number_11);
     return temp_case;
 }
