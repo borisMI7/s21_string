@@ -5,7 +5,7 @@
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   char *p = (char *)str;
   void *res = S21_NULL;
-  while (p != NULL && n-- > 0) {
+  while (p != S21_NULL && n-- > 0) {
     if (*p == c) {
       n = 0;
       res = (void *)p;
@@ -71,7 +71,7 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 
 // 6
 char *s21_strchr(const char *str, int c) {
-  if (str == NULL) return NULL;
+  if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
   s21_size_t index = 0;
   for (; symbol_found == 0 && str[index]; index++)
@@ -80,21 +80,24 @@ char *s21_strchr(const char *str, int c) {
       index--;
     }
   if (c == 0) symbol_found = 1;
-  return symbol_found ? (char *)str + index : NULL;
+  return symbol_found ? (char *)str + index : S21_NULL;
 }
 
 // 7
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   s21_size_t i;
   int result;
-  for (i = 0; i < n && str1[i] != '\0' && str1[i] == str2[i]; i++) {
+  if (str1 != S21_NULL && str2 != S21_NULL) {
+    for (i = 0; i < n && str1[i] != '\0' && str1[i] == str2[i]; i++) {
+    }
+    if (n == i) {
+      result = 0;
+    } else {
+      result = (unsigned char)str1[i] - (unsigned char)str2[i];
+    }
   }
-
-  if (n == i) {
-    result = 0;
-  } else {
-    result = (unsigned char)str1[i] - (unsigned char)str2[i];
-  }
+  if (str1 == S21_NULL && str2 != S21_NULL) result = -1;
+  else if (str1 != S21_NULL && str2 == S21_NULL) result = 1;
   return result;
 }
 
@@ -469,7 +472,7 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 
 // 13
 char *s21_strrchr(const char *str, int c) {
-  if (str == NULL) return NULL;
+  if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
   s21_size_t index = 0;
   s21_size_t length = 0;
@@ -482,12 +485,12 @@ char *s21_strrchr(const char *str, int c) {
     symbol_found = 1;
     index = length;
   }
-  return symbol_found ? (char *)str + index : NULL;
+  return symbol_found ? (char *)str + index : S21_NULL;
 }
 
 // 14
 char *s21_strstr(const char *haystack, const char *needle) {
-  if (haystack == NULL || needle == NULL) return NULL;
+  if (haystack == S21_NULL || needle == S21_NULL) return S21_NULL;
   s21_size_t index_for_str1 = 0, index_for_str2 = 0, answer_index = 0;
   int start_symbol_found = 0, str_found = 0;
   while (haystack[index_for_str1] != '\0' && str_found != 2) {
@@ -507,7 +510,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
       str_found = 1;
     }
   }
-  return str_found ? (char *)haystack + answer_index : NULL;
+  return str_found ? (char *)haystack + answer_index : S21_NULL;
 }
 
 // 15
