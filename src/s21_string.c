@@ -23,7 +23,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   int res = 0;
   while (p1 != S21_NULL && p2 != S21_NULL && !res && n) {
     if (*p1 != *p2) {
-      res = (int)*p1 - (int)*p2;
+      res = (int)(*p1 - *p2);
       n = 0;
     } else {
       p1++;
@@ -104,7 +104,8 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
 // 8
 
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
-  s21_size_t i;
+  if (src == S21_NULL || dest == S21_NULL) return dest;
+  s21_size_t i = 0;
   for (i = 0; i < n && src[i] != '\0'; i++) {
     dest[i] = src[i];
   }
