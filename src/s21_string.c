@@ -59,7 +59,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 // 5
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   if (dest == S21_NULL || src == S21_NULL) return dest;
-  s21_size_t i;
+  s21_size_t i = 0;
   for (i = 0; dest[i] != '\0'; i++) {
   }
   for (s21_size_t j = 0; j < n && src[j] != '\0'; j++, i++) {
@@ -85,8 +85,8 @@ char *s21_strchr(const char *str, int c) {
 
 // 7
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
-  s21_size_t i;
-  int result;
+  s21_size_t i = 0;
+  int result = 0;
   if (str1 != S21_NULL && str2 != S21_NULL) {
     for (i = 0; i < n && str1[i] != '\0' && str1[i] == str2[i]; i++) {
     }
