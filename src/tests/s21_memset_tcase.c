@@ -57,6 +57,12 @@ START_TEST(s21_memset_test_number_8) {
 }
 END_TEST
 
+START_TEST(s21_memset_test_number_9) {
+    ck_assert_ptr_eq(S21_NULL, s21_memset(S21_NULL, 'a', 12));
+    ck_assert_ptr_eq(S21_NULL, S21_NULL);
+}
+END_TEST
+
 TCase *s21_memset_create_tcase(void) {
     TCase *temp_case = tcase_create("S21_MEMSET_TESTING:\n");
     tcase_add_test(temp_case, s21_memset_test_number_1);
@@ -66,5 +72,6 @@ TCase *s21_memset_create_tcase(void) {
     tcase_add_test(temp_case, s21_memset_test_number_6);
     tcase_add_test(temp_case, s21_memset_test_number_7);
     tcase_add_test(temp_case, s21_memset_test_number_8);
+    tcase_add_test(temp_case, s21_memset_test_number_9);
     return temp_case;
 }

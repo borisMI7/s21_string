@@ -84,6 +84,7 @@ START_TEST(s21_memcmp_test_number_14) {
 }
 END_TEST
 
+
 TCase *s21_memcmp_create_tcase(void) {
     TCase *temp_case = tcase_create("S21_MEMCMP_TESTING:\n");
     tcase_add_test(temp_case, s21_memcmp_test_number_1);

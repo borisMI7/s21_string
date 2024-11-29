@@ -58,6 +58,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 // 5
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
+  if (dest == S21_NULL || src == S21_NULL) return dest;
   s21_size_t i;
   for (i = 0; dest[i] != '\0'; i++) {
   }

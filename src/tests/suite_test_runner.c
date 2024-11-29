@@ -3,6 +3,7 @@
 #include "s21_memcmp_tcase.c"
 #include "s21_memcpy_tcase.c"
 #include "s21_memset_tcase.c"
+#include "s21_strncat_tcase.c"
 
 Suite *untie_tacses_to_suit(void) {
   Suite *s = suite_create("s21_strung_plus_testing");
@@ -10,6 +11,7 @@ Suite *untie_tacses_to_suit(void) {
   suite_add_tcase(s, s21_memcmp_create_tcase());
   suite_add_tcase(s, s21_memcpy_create_tcase());
   suite_add_tcase(s, s21_memset_create_tcase());
+  suite_add_tcase(s, s21_strncat_create_tcase());
   return s;
 }
 
