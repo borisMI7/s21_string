@@ -7,6 +7,7 @@
 #include "s21_strchr_tcase.c"
 #include "s21_strncmp_tcase.c"
 #include "s21_strncpy_tcase.c"
+#include "s21_strcspn_tcase.c"
 
 
 
@@ -20,6 +21,7 @@ Suite *untie_tacses_to_suit(void) {
   suite_add_tcase(s, s21_strchr_create_tcase());
   suite_add_tcase(s, s21_strncmp_create_tcase());
   suite_add_tcase(s, s21_strncpy_create_tcase());
+  suite_add_tcase(s, s21_strcspn_create_tcase());
   return s;
 }
 
