@@ -433,9 +433,8 @@ char *s21_itoa(int num, char *str) {
 char *s21_strerror(int errnum) {
   static char result[512] = {'\0'};
 
-  if (errnum <= MIN_ERRLIST || errnum >= MAX_ERRLIST || errnum == 41 ||
-      errnum == 58) {
-    char numStr[32];
+  if (errnum <= MIN_ERRLIST || errnum >= MAX_ERRLIST) {
+    char numStr[32] = {'\0'};
     s21_strcpy(result, ERROR);
     s21_strcat(result, s21_itoa(errnum, numStr));
   } else {
@@ -551,6 +550,7 @@ char *s21_strtok(char *str, const char *delim) {
   if (e) result = S21_NULL;
   return result;
 }
+
 
 
 // 16
