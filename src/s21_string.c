@@ -1,4 +1,6 @@
 #include "s21_string.h"
+#include <stdio.h>
+
 // FUNCTION NUMBER 1
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   char *p = (char *)str;
@@ -48,7 +50,10 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
 void *s21_memset(void *str, int c, s21_size_t n) {
   if (str == S21_NULL || n < 1) return str;
   char *p = (char *)str;
-  while (n-- > 0) *(p++) = c;
+  while (n > 0) {
+    *(p++) = c;
+    n--;
+  }
   return str;
 }
 // 5
@@ -508,25 +513,26 @@ char *s21_strstr(const char *haystack, const char *needle) {
 char *s21_strtok(char *str, const char *delim) {
   static char *next = S21_NULL;
   char *result = S21_NULL;
+  int e = 0;
 
   if (str != S21_NULL) {
     next = str;
   }
 
   if (next == S21_NULL || *next == '\0') {
-    return result;
+    e = 1;
   }
 
   if (delim == S21_NULL || *delim == '\0') {
     result = next;
-    next += s21_strlen(next);
+    next += my_strlen_for_strtok(next);
   } else {
-    while (*next != '\0' && s21_strchr(delim, *next)) {
+    while (*next != '\0' && my_strchr(delim, *next)) {
       next++;
     }
     if (*next != '\0') {
       result = next;
-      while (*next != '\0' && !s21_strchr(delim, *next)) {
+      while (*next != '\0' && !my_strchr(delim, *next)) {
         next++;
       }
       if (*next != '\0') {
@@ -534,8 +540,11 @@ char *s21_strtok(char *str, const char *delim) {
       }
     }
   }
+
+  if (e) result = S21_NULL;
   return result;
 }
+
 
 // 16
 void *s21_to_upper(const char *str) {
