@@ -8,12 +8,15 @@ else ifeq ($(OS), Darwin)
 	LFLAGS=-lcheck -lm
 endif
 
-s21_string.a: s21_string.o
-	ar rcs s21_string.a s21_string.o
+s21_string.a: s21_string.o s21_sprintf.o
+	ar rcs s21_string.a s21_string.o s21_sprintf.o
 	ranlib s21_string.a
 
 s21_string.o: s21_string.c s21_string.h
 	$(CC) $(FLAGS) -c s21_string.c -o s21_string.o
+
+s21_sprintf.o: s21_sprintf.c s21_string.h
+	$(CC) $(FLAGS) -c s21_sprintf.c -o s21_sprintf.o
 
 clean:
 	rm -rf *.a *.o tests/*.out *.out tests/*.temp

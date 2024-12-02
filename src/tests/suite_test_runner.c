@@ -19,6 +19,7 @@
 #include "s21_to_lower_tcase.c"
 #include "s21_to_upper_tcase.c"
 #include "s21_trim_tcase.c"
+#include "s21_sprintf_tcase.c"
 
 Suite *untie_tacses_to_suit(void) {
   Suite *s = suite_create("s21_strung_plus_testing");
@@ -51,6 +52,10 @@ int main(void) {
   srunner_run_all(runner, CK_NORMAL);
   failed_count = srunner_ntests_failed(runner);
   srunner_free(runner);
-
+  Suite *s = suite_create("s21_sprintf_testing");
+  suite_add_tcase(s, s21_sprintf_create_tcase());
+  runner = srunner_create(s);
+  srunner_run_all(runner, CK_NORMAL);
+  srunner_free(runner);
   return failed_count == 0 ? 0 : 1;
 }

@@ -11,21 +11,20 @@ typedef long int s21_lint;
 typedef short int s21_sint;
 
 typedef struct spec {
-  size_t width;   // ширина вывода
-  int left_allig; // выравнивание слева или справа
-  int accuracy;   // количество знаков после запятой
-  int print_plus; // печатать ли плюсы
-  int space; // печатать ли пробел если знак не выведен
-  int hash_spec;  // флаг #
-  int is_zero;    // Является ли число не нулём
-  int field_zero; // нужно ли  заполнять слева нулями
-  char spec;      // какой спецификатор
-  char spec_size; // длина спецификатора 
+  size_t width;    // ширина вывода
+  int left_allig;  // выравнивание слева или справа
+  int accuracy;    // количество знаков после запятой
+  int print_plus;  // печатать ли плюсы
+  int space;       // печатать ли пробел если знак не выведен
+  int hash_spec;   // флаг #
+  int is_zero;     // Является ли число не нулём
+  int field_zero;  // нужно ли  заполнять слева нулями
+  char spec;       // какой спецификатор
+  char spec_size;  // длина спецификатора 
 } spec;
 
-
 void apply_padding(char **result, size_t curr_len, size_t padding_size,
-                           char pad_char, int left_align) {
+                   char pad_char, int left_align) {
   if (left_align) {
     for (size_t i = 0; i < padding_size; i++) {
       (*result)[curr_len + i] = pad_char;
@@ -41,10 +40,8 @@ void apply_padding(char **result, size_t curr_len, size_t padding_size,
   (*result)[curr_len + padding_size] = '\0';
 }
 
-char *reallocate_and_shift(char **result, size_t *curr_len,
-                           size_t add_space) {
-  char *temp =
-      realloc(*result, sizeof(char) * (*curr_len + add_space + 1));
+char *reallocate_and_shift(char **result, size_t *curr_len, size_t add_space) {
+  char *temp = realloc(*result, sizeof(char) * (*curr_len + add_space + 1));
   if (!temp) {
     free(*result);
   } else {
@@ -64,12 +61,12 @@ char *reallocate_and_shift(char **result, size_t *curr_len,
 }
 
 void handle_numeric_specifiers(spec *sp, char **result, size_t *curr_len,
-                                      size_t *padding_size) {
+                               size_t *padding_size) {
   if (s21_strchr("oxX", sp->spec) && sp->hash_spec && !sp->is_zero) {
     size_t realloc_size = (sp->spec == 'o') ? 1 : 2;
     if (*padding_size < realloc_size) {
       reallocate_and_shift(result, curr_len, realloc_size);
-    } 
+    }
     (*result)[0] = '0';
     if (sp->spec != 'o') {
       (*result)[1] = sp->spec;
@@ -107,7 +104,6 @@ char *format_string(spec *sp, char *buff) {
 
   return result;
 }
-
 
 // длина для выделения памяти
 s21_size_t count_digits(long long n) {
@@ -418,7 +414,6 @@ int set_spec(spec *sp, char ch) {
   return result;
 }
 
-
 void set_default_spec(spec *sp) {
   sp->width = 0;
   sp->accuracy = -1;
@@ -477,7 +472,6 @@ int parse(spec *sp, char const *string, va_list *perm) {
   }
   return i;
 }
-
 
 void spec_d(char *buffer, va_list peremn, spec sp) {
   if (sp.accuracy < 0) sp.accuracy = 1;
@@ -626,6 +620,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
     temp2 = my_gftoa(temp, sp.accuracy - int_temp_len, 0, sp.hash_spec);
   }
   s21_strcat(buffer, temp2);
+  if (temp2) free(temp2);
 }
 
 // void spec_e(char *buffer, va_list *peremn, spec sp) {
@@ -758,12 +753,11 @@ void check_spec(spec sp, va_list *peremn, char *buffer) {
 
 int s21_sprintf(char *str, const char *format, ...) {
   s21_size_t length = s21_strlen(format);
-
   va_list peremn;
   va_start(peremn, format);
   int j = 0;
   spec sp;
-  for (s21_size_t i = 0; i < length; i++) {
+  for (s21_size_t i = 0; i < length + 1; i++) {
     if (format[i] != '%') {
       str[j] = format[i];
       j++;
@@ -779,156 +773,5 @@ int s21_sprintf(char *str, const char *format, ...) {
     }
   }
   va_end(peremn);
-  return 0;
-}
-
-int main(void) {
-  // char str[100];
-  // int p = 986;
-  // s21_sprintf(str, "A%dB %c %% - %s// %n", -10, 'Q', "Hello world", &p);
-  // char str[100];
-  /*printf("%s\n",  my_ftoa(100.05697, 7));
-  printf("%s\n",  my_gftoa(100.05699, 13));
-  printf("%.13g", 100.05699);
-  printf("\n%.7f", 100.05697);*/
-  // char str[100];
-  // s21_sprintf(str, " %#-10.0g %#.0e", 0.0, 100.05699);
-  // printf("%s\n", str);
-  // printf(" %lc %#.0e", 64, 507.05699);
-
-  char buf1[100], buf2[100];
-
-  // short test_h = 123;
-
-  // sprintf(buf1, "%hd", test_h);
-  // s21_sprintf(buf2, "%hd", test_h);
-  // if (strcmp(buf1, buf2) != 0) {
-  //   printf("Test 1 (l): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // } else {
-  //   printf("Test 1 (l): Passed! Both outputs are the same.\n");
-  // }
-
-  // long test_value = 32767;
-
-  // sprintf(buf1, "%ld", test_value);
-  // s21_sprintf(buf2, "%ld", test_value);
-  // if (strcmp(buf1, buf2) != 0) {
-  //   printf("Test 1 (l): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // } else {
-  //   printf("Test 1 (l): Passed! Both outputs are the same.\n");
-  // }
-
-  // long negative_value = -32767L;
-
-  // sprintf(buf1, "%ld", negative_value);
-
-  // s21_sprintf(buf2, "%ld", negative_value);
-
-  // if (strcmp(buf1, buf2) != 0) {
-  //   printf("Test 2 (l, negative): Failed! sprintf: %s, s21_sprintf: %s\n",
-  //   buf1,
-  //          buf2);
-  // } else {
-  //   printf("Test 2 (l, negative): Passed! Both outputs are the same.\n");
-  // }
-
-  // sprintf(buf1, "%.3Lf", -123.456789L);
-  // s21_sprintf(buf2, "%.3Lf", -123.456789L);
-
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 1 (L): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // else
-  //   printf("Test 1 (L): Passed!\n");
-
-  // sprintf(buf1, "%lo", (long unsigned)30071);
-  // s21_sprintf(buf2, "%lo", (long unsigned)30071);
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 1 (L): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // else
-  //   printf("Test 1 (L): Passed!\n");
-
-  // sprintf(buf1, "%lo", (long unsigned)0);
-  // s21_sprintf(buf2, "%lo", (long unsigned)0);
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 2 (L): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // else
-  //   printf("Test 2 (L): Passed!\n");
-  // sprintf(buf1, "%ho", (unsigned short)42);
-  // s21_sprintf(buf2, "%ho", (unsigned short)42);
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 1 (ho, basic value): Failed! sprintf: %s, s21_sprintf:
-  //   %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 1 (ho, basic value): Passed!\n");
-
-  // sprintf(buf1, "%ho", (unsigned short)0);  // Ожидаемый вывод: "0"
-  // s21_sprintf(buf2, "%ho", (unsigned short)0);
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 2 (ho, zero value): Failed! sprintf: %s, s21_sprintf: %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 2 (ho, zero value): Passed!\n");
-
-  // unsigned short int val_hu = 12345;
-  // sprintf(buf1, "%hu", val_hu);  // Используем стандартный sprintf
-  // s21_sprintf(buf2, "%hu", val_hu);  // Наш кастомный s21_sprintf
-
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 1 (hu, simple value): Failed! sprintf: %s, s21_sprintf:
-  //   %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 1 (hu, simple value): Passed!\n");
-
-  // unsigned short int val_hu = 1;
-  // sprintf(buf1, "%hu", val_hu);  // Используем стандартный sprintf
-  // s21_sprintf(buf2, "%hu", val_hu);  // Наш кастомный s21_sprintf
-
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 3 (hu, minimal value): Failed! sprintf: %s, s21_sprintf:
-  //   %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 3 (hu, minimal value): Passed!\n");
-
-  // unsigned long int val_lu = 1234567890;
-  // sprintf(buf1, "%lu", val_lu);  // Используем стандартный sprintf
-  // s21_sprintf(buf2, "%lu", val_lu);  // Наш кастомный s21_sprintf
-
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 1 (lu, simple value): Failed! sprintf: %s, s21_sprintf:
-  //   %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 1 (lu, simple value): Passed!\n");
-  // unsigned long int val_lu = 42;
-  // sprintf(buf1, "%06lu", val_lu);  // Используем стандартный sprintf с
-  // шириной 6 s21_sprintf(buf2, "%06lu", val_lu);  // Наш кастомный s21_sprintf
-  // с шириной 6
-
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 5 (lu, width padding): Failed! sprintf: %s, s21_sprintf:
-  //   %s\n",
-  //          buf1, buf2);
-  // else
-  //   printf("Test 5 (lu, width padding): Passed!\n");
-
-  // long unsigned int val = 255;
-  // sprintf(buf1, "%lx", val);
-  // s21_sprintf(buf2, "%lx", val);
-  // if (strcmp(buf1, buf2) != 0)
-  //   printf("Test 4 ()): Failed! sprintf: %s, s21_sprintf: %s\n", buf1, buf2);
-  // else
-  //   printf("Test 4 (): Passed!\n");
-
-  // double val = 123.456789L;
-  // sprintf(buf1, "%.2E", val);
-  // s21_sprintf(buf2, "%.2E", val);
-  // if (strcmp(buf1, buf2) != 0) {
-  //   printf("Test 1 (%%Lf): Failed! sprintf: %s, s21_sprintf: %s\n", buf1,
-  //   buf2);
-  // } else {
-  //   printf("Test 1 (%%Lf): Passed!\n");
-  // }
+  return j - 1;
 }
