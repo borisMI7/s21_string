@@ -9,7 +9,9 @@ START_TEST(s21_trim_test_number_1) {
 END_TEST
 
 START_TEST(s21_trim_test_number_2) {
-  char str[100] = "   ()))((0011))      is Aoba real?                  ((00()0))              ";
+  char str[100] =
+      "   ()))((0011))      is Aoba real?                  ((00()0))           "
+      "   ";
   char *ptr = s21_trim(str, " ()90180");
   ck_assert_str_eq("is Aoba real?", ptr);
   if (ptr) free(ptr);
