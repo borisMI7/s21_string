@@ -69,9 +69,6 @@ END_TEST
 
 START_TEST(s21_strtok_test_number_6) {
   char *ptr2 = s21_strtok(S21_NULL, "=+3");
-  char *ptr1 = strtok(S21_NULL, "=+3");
-
-  ck_assert_ptr_eq(S21_NULL, ptr1);
   ck_assert_ptr_eq(S21_NULL, ptr2);
 }
 END_TEST

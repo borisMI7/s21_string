@@ -30,7 +30,7 @@ END_TEST
 
 START_TEST(s21_strncpy_test_number_5) {
   char str1[10] = "abob", str2[10] = "abob", str3[10] = "ABOBA";
-  ck_assert_str_eq(strncpy(str1, str3, 0), s21_strncpy(str2, str3, 0));
+  ck_assert_str_eq(str1, s21_strncpy(str2, str3, 0));
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
