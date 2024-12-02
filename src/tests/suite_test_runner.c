@@ -1,21 +1,24 @@
 #include "suite_test_runner.h"
+
+#include "s21_insert_tcase.c"
 #include "s21_memchr_tcase.c"
 #include "s21_memcmp_tcase.c"
 #include "s21_memcpy_tcase.c"
 #include "s21_memset_tcase.c"
-#include "s21_strncat_tcase.c"
 #include "s21_strchr_tcase.c"
-#include "s21_strncmp_tcase.c"
-#include "s21_strncpy_tcase.c"
 #include "s21_strcspn_tcase.c"
 #include "s21_strerror_tcase.c"
 #include "s21_strlen_tcase.c"
+#include "s21_strncat_tcase.c"
+#include "s21_strncmp_tcase.c"
+#include "s21_strncpy_tcase.c"
 #include "s21_strpbrk_tcase.c"
 #include "s21_strrchr_tcase.c"
 #include "s21_strstr_tcase.c"
 #include "s21_strtok_tcase.c"
-
-
+#include "s21_to_lower_tcase.c"
+#include "s21_to_upper_tcase.c"
+#include "s21_trim_tcase.c"
 
 Suite *untie_tacses_to_suit(void) {
   Suite *s = suite_create("s21_strung_plus_testing");
@@ -34,9 +37,12 @@ Suite *untie_tacses_to_suit(void) {
   suite_add_tcase(s, s21_strrchr_create_tcase());
   suite_add_tcase(s, s21_strstr_create_tcase());
   suite_add_tcase(s, s21_strtok_create_tcase());
+  suite_add_tcase(s, s21_to_upper_create_tcase());
+  suite_add_tcase(s, s21_to_lower_create_tcase());
+  suite_add_tcase(s, s21_insert_create_tcase());
+  suite_add_tcase(s, s21_trim_create_tcase());
   return s;
 }
-
 
 int main(void) {
   int failed_count = 0;
@@ -48,4 +54,3 @@ int main(void) {
 
   return failed_count == 0 ? 0 : 1;
 }
-

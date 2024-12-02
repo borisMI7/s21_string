@@ -11,14 +11,14 @@
 #endif
 
 START_TEST(s21_strerror_test_number_1) {
-    for (int i = -50; i <= MAX_ERRLIST + 50; i++) {
-        ck_assert_str_eq(strerror(i), s21_strerror(i));
-    }
+  for (int i = -50; i <= MAX_ERRLIST + 50; i++) {
+    ck_assert_str_eq(strerror(i), s21_strerror(i));
+  }
 }
 END_TEST
 
 TCase *s21_strerror_create_tcase(void) {
-    TCase *temp_case = tcase_create("S21_STRERROR_TESTING:\n");
-    tcase_add_test(temp_case, s21_strerror_test_number_1);
-    return temp_case;
+  TCase *temp_case = tcase_create("S21_STRERROR_TESTING:\n");
+  tcase_add_test(temp_case, s21_strerror_test_number_1);
+  return temp_case;
 }
