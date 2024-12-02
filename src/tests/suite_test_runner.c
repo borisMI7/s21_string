@@ -13,6 +13,7 @@
 #include "s21_strpbrk_tcase.c"
 #include "s21_strrchr_tcase.c"
 #include "s21_strstr_tcase.c"
+#include "s21_strtok_tcase.c"
 
 
 
@@ -32,6 +33,7 @@ Suite *untie_tacses_to_suit(void) {
   suite_add_tcase(s, s21_strpbrk_create_tcase());
   suite_add_tcase(s, s21_strrchr_create_tcase());
   suite_add_tcase(s, s21_strstr_create_tcase());
+  suite_add_tcase(s, s21_strtok_create_tcase());
   return s;
 }
 

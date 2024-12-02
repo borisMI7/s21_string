@@ -492,7 +492,7 @@ char *s21_strrchr(const char *str, int c) {
 
 // 14
 char *s21_strstr(const char *haystack, const char *needle) {
-  if (haystack == NULL || needle == NULL) return NULL;
+  if (haystack == S21_NULL || needle == S21_NULL) return S21_NULL;
   s21_size_t index_for_str1 = 0, index_for_str2 = 0, answer_index = 0;
   int start_symbol_found = 0, str_found = 0;
   while (haystack[index_for_str1] != '\0' && str_found != 2) {
@@ -512,23 +512,21 @@ char *s21_strstr(const char *haystack, const char *needle) {
       str_found = 1;
     }
   }
-  return str_found ? (char *)haystack + answer_index : NULL;
+  return str_found ? (char *)haystack + answer_index : S21_NULL;
 }
 
 // 15
 char *s21_strtok(char *str, const char *delim) {
+  if (str == S21_NULL || delim == S21_NULL) return S21_NULL;
   static char *next = S21_NULL;
   char *result = S21_NULL;
   int e = 0;
-
   if (str != S21_NULL) {
     next = str;
   }
-
   if (next == S21_NULL || *next == '\0') {
     e = 1;
   }
-
   if (delim == S21_NULL || *delim == '\0') {
     result = next;
     next += s21_strlen(next);
@@ -546,7 +544,6 @@ char *s21_strtok(char *str, const char *delim) {
       }
     }
   }
-
   if (e) result = S21_NULL;
   return result;
 }

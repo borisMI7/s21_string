@@ -3,13 +3,13 @@
 
 START_TEST(s21_strstr_test_number_1) {
     char str1[10] = "Abobalol", str2[] = "oba";
-    ck_assert_str_eq(strstr(str1, str2), s21_strstr(str1, str2));
+    ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
 }
 END_TEST
 
 START_TEST(s21_strstr_test_number_2) {
     char str1[10] = "Abobalol", str2[] = "";
-    ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
+    ck_assert_str_eq(strstr(str1, str2), s21_strstr(str1, str2));
 }
 END_TEST
 
