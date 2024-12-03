@@ -769,5 +769,5 @@ int s21_sprintf(char *str, const char *format, ...) {
   }
   va_end(peremn);
 
-  return j - 1;
+  return j;
 }

@@ -202,6 +202,55 @@ START_TEST(spec_d_17) {
 }
 END_TEST
 
+START_TEST(spec_d_18) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: %hd", (short)-32767);
+  s21_sprintf(str2, "here is the number: %hd", (short)-32767);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_19) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: %hd", (short)32766);
+  s21_sprintf(str2, "here is the number: %hd", (short)32766);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_20) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: % d", 1234);
+  s21_sprintf(str2, "here is the number: % d", 1234);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_21) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: %+d\n lol", 0);
+  s21_sprintf(str2, "here is the number: %+d\n lol", 0);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_22) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: % -d\n lol", 0);
+  s21_sprintf(str2, "here is the number: % -d\n lol", 0);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_23) {
+  char str1[500], str2[500];
+  sprintf(str1, "here is the number: % 0d\n lol", 0);
+  s21_sprintf(str2, "here is the number: % 0d\n lol", 0);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+
 
   // sprintf(str1, "here is the number: %+d", -1234);
   // s21_sprintf(str2, "here is the number: %+d", -1234);
@@ -256,5 +305,9 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_15);
   tcase_add_test(temp_case, spec_d_16);
   tcase_add_test(temp_case, spec_d_17);
+  tcase_add_test(temp_case, spec_d_18);
+  tcase_add_test(temp_case, spec_d_19);
+  tcase_add_test(temp_case, spec_d_20);
+  tcase_add_test(temp_case, spec_d_21);
   return temp_case;
 }
