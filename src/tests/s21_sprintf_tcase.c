@@ -220,6 +220,14 @@ START_TEST(spec_d_21) {
 }
 END_TEST
 
+START_TEST(spec_d_8) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: % 20.10d lol", 123);
+  s21_sprintf(str2, "here is the number: % 20.10d lol", 123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
 
 
 
@@ -241,7 +249,7 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_5);
   tcase_add_test(temp_case, spec_d_6);
   tcase_add_test(temp_case, spec_d_7);
-  // tcase_add_test(temp_case, spec_d_8);
+  tcase_add_test(temp_case, spec_d_8);
   tcase_add_test(temp_case, spec_d_9);
   tcase_add_test(temp_case, spec_d_10);
   // tcase_add_test(temp_case, spec_d_11);
