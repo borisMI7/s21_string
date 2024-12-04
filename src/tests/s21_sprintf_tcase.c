@@ -235,46 +235,7 @@ START_TEST(spec_d_21) {
 }
 END_TEST
 
-// START_TEST(spec_d_22) {
-//   char str1[1000], str2[1000];
-//   sprintf(str1, "here is the number: % -d\n lol", 0);
-//   s21_sprintf(str2, "here is the number: % -d\n lol", 0);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
 
-// START_TEST(spec_d_23) {
-//   char str1[1000], str2[1000];
-//   sprintf(str1, "here is the number: % 0d\n lol", 0);
-//   s21_sprintf(str2, "here is the number: % 0d\n lol", 0);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
-
-// sprintf(str1, "here is the number: %+d", -1234);
-// s21_sprintf(str2, "here is the number: %+d", -1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: % d", 1234);
-// s21_sprintf(str2, "here is the number: % d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %-d", 1234);
-// s21_sprintf(str2, "here is the number: %-d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %-3d", 1234);
-// s21_sprintf(str2, "here is the number: %-3d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %-10d", 1234);
-// s21_sprintf(str2, "here is the number: %-10d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %-5.0d", 1234);
-// s21_sprintf(str2, "here is the number: %-5.0d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %-5.2d", 1234);
-// s21_sprintf(str2, "here is the number: %-5.2d", 1234);
-// ck_assert_str_eq(str1, str2);
-// sprintf(str1, "here is the number: %010.2d", 1234);
-// s21_sprintf(str2, "here is the number: %010.2d", 1234);
-// ck_assert_str_eq(str1, str2);
 
 TCase *s21_sprintf_create_tcase(void) {
   TCase *temp_case = tcase_create("S21_SPRINTF_TESTING:\n");

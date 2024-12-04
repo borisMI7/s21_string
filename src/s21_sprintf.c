@@ -45,7 +45,7 @@ char *reallocate_and_shift(char **result, size_t *curr_len,
                            size_t add_space) {  // Don't work sprinf("%#3x",37);
   char *temp = realloc(*result, sizeof(char) * (*curr_len + add_space + 1));
   if (!temp) {
-    free(*result);
+    if (*result) {free(*result); *result = S21_NULL;}
   } else {
     for (size_t i = *curr_len; i > 0; i--) {
       temp[i + add_space - 1] = temp[i - 1];
@@ -96,8 +96,8 @@ void handle_numeric_specifiers(
 }
 
 char *format_string(spec *sp, char *buff) {
-  if (sp == NULL || buff == NULL) {
-    return NULL;
+  if (sp == S21_NULL || buff == S21_NULL) {
+    return S21_NULL;
   }
 
   size_t curr_len = s21_strlen(buff);
@@ -105,7 +105,7 @@ char *format_string(spec *sp, char *buff) {
   size_t result_size = curr_len + padding_size + 1;
 
   char *result = malloc(sizeof(char) * (result_size));
-  if (result != NULL) {
+  if (result != S21_NULL) {
     s21_memset(result, 0, result_size);
     s21_strcpy(result, buff);
 
@@ -114,6 +114,7 @@ char *format_string(spec *sp, char *buff) {
 
     handle_numeric_specifiers(sp, &result, &curr_len, &padding_size);
   }
+  result[result_size - 1] = '\0';
   return result;
 }
 
@@ -260,7 +261,7 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
     }
   }
 
-  free(fract_str);
+  if (fract_str) {free(fract_str); fract_str = S21_NULL;}
   return str;
 }
 
@@ -320,7 +321,7 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
   s21_strcat(result, sign_e ? "+" : "-");
   char number[3] = {(e / 10 % 10) + '0', (e % 10) + '0'};
   s21_strcat(result, number);
-  free(temp);
+  if (temp) {free(temp); temp = S21_NULL;}
 
   return (result);
 }
@@ -515,7 +516,7 @@ char *convert_signed_integer(long temp, int *sign) {
   }
   int temp_len = s21_intlen(temp);
   char *temp3 = malloc(temp_len + 1);
-  if (temp3 == NULL) return NULL;
+  if (temp3 == S21_NULL) return S21_NULL;
 
   my_itoa(temp, temp3);
   return temp3;
@@ -525,7 +526,7 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
   if (sp.accuracy < 0) sp.accuracy = 1;
 
   int sign = 0;
-  char *temp3 = NULL;
+  char *temp3 = S21_NULL;
 
   if (sp.spec_size == 'h') {
     s21_sint temp = (short)va_arg(peremn, int);
@@ -538,7 +539,7 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
     temp3 = convert_signed_integer(temp, &sign);
   }
 
-  if (temp3 != NULL) {
+  if (temp3 != S21_NULL) {
     int temp_len = s21_strlen(temp3);
 
     if (sign) s21_strcat(buffer, "-");
@@ -549,14 +550,14 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
     }
 
     s21_strcat(buffer, temp3);
-    free(temp3);
+    if (temp3) {free(temp3); temp3 = S21_NULL;}
   }
 }
 
 void spec_f(char *buffer, va_list *peremn, spec sp) {
   if (sp.accuracy < 0) sp.accuracy = 6;
 
-  char *temp2 = NULL;
+  char *temp2 = S21_NULL;
 
   if (sp.spec_size == 'a') {
     long double temp = va_arg(*peremn, long double);
@@ -566,9 +567,9 @@ void spec_f(char *buffer, va_list *peremn, spec sp) {
     temp2 = my_gftoa(temp, sp.accuracy, 1, sp.hash_spec);
   }
 
-  if (temp2 != NULL) {
+  if (temp2 != S21_NULL) {
     s21_strcat(buffer, temp2);
-    free(temp2);
+    if (temp2) {free(temp2); temp2 = S21_NULL;}
   }
 }
 
@@ -623,6 +624,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
     temp2 = my_gftoa(temp, sp.accuracy - int_temp_len, 0, sp.hash_spec);
   }
   s21_strcat(buffer, temp2);
+  if (temp2) {free(temp2); temp2 = S21_NULL;}
 }
 
 void spec_e_E(char *buffer, va_list *peremn, spec sp) {
@@ -637,6 +639,7 @@ void spec_e_E(char *buffer, va_list *peremn, spec sp) {
 
   char *temp2 =
       etoa(temp, sp.accuracy, (sp.spec == 'E') ? 1 : 0, 1, sp.hash_spec);
+  if (temp2) {free(temp2); temp2 = S21_NULL;}
   s21_strcat(buffer, temp2);
 }
 
@@ -663,7 +666,7 @@ void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
   }
 
   s21_strcat(buffer, temp2);
-  free(temp2);
+  if (temp2) {free(temp2); temp2 = S21_NULL;}
 }
 
 void spec_o(char *buffer, va_list *peremn, spec *sp) {
@@ -689,7 +692,7 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
   }
 
   s21_strcat(buffer, temp2);
-  free(temp2);
+  if (temp2) {free(temp2); temp2 = S21_NULL;}
 }
 
 void spec_p(char *buffer, va_list *peremn) {
@@ -743,20 +746,19 @@ int s21_sprintf(char *str, const char *format, ...) {
   va_start(peremn, format);
   int j = 0;
   spec sp;
-  s21_memset(str, '\0', s21_strlen(str));
-  for (s21_size_t i = 0; i < length; i++) {
+  int len = (int)s21_strlen(str);
+  for (char *p = str; p - str < len; p++) *p = '\0';
+  for (s21_size_t i = 0; i < length && format[i]; i++) {
     if (format[i] != '%') {
       str[j++] = format[i];
     } else {
+      str[j] = '\0';
       i += parse(&sp, &format[i], &peremn);
-
       char buffer[2048] = {0};
       check_spec(&sp, &peremn, buffer);
-
       char *temp = format_string(&sp, buffer);
       s21_strcat(str, temp);
-      free(temp);
-
+      if (temp) {free(temp); temp = S21_NULL;}
       j = s21_strlen(str);
     }
   }
