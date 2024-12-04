@@ -751,6 +751,7 @@ int s21_sprintf(char *str, const char *format, ...) {
   for (s21_size_t i = 0; i < length && format[i]; i++) {
     if (format[i] != '%') {
       str[j++] = format[i];
+      if (i == length - 1) str[j] = '\0';
     } else {
       str[j] = '\0';
       i += parse(&sp, &format[i], &peremn);
