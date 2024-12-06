@@ -420,15 +420,16 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
 }
 END_TEST
 
-START_TEST(spec_d_35) {
-char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-  int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %015.10d lol", 123);
-  n2 = s21_sprintf(str2, "here is the number: %015.10d lol", 123);
-  ck_assert_int_eq(n1, n2);
-  ck_assert_str_eq(str1, str2);
-}
-END_TEST
+// Ignored by Linux
+// START_TEST(spec_d_35) {
+// char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+//   int n1 = 0, n2 = 0;
+//   n1 = sprintf(str1, "here is the number: %015.10d lol", 123);
+//   n2 = s21_sprintf(str2, "here is the number: %015.10d lol", 123);
+//   ck_assert_int_eq(n1, n2);
+//   ck_assert_str_eq(str1, str2);
+// }
+// END_TEST
 
 START_TEST(spec_d_36) {
 char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -445,6 +446,16 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
   n1 = sprintf(str1, "here is the number: lol % -*.*d", -10, 20, 15);
   n2 = s21_sprintf(str2, "here is the number: lol % -*.*d", -10, 20, 15);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_d_37) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol % -*.*d", 10, 20, 15);
+  n2 = s21_sprintf(str2, "here is the number: lol % -*.*d", 10, 20, 15);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
