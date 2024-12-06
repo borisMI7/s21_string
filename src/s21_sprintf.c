@@ -12,86 +12,95 @@ typedef long int s21_lint;
 typedef short int s21_sint;
 
 typedef struct spec {
-  size_t width;    // ширина вывода
-  int left_allig;  // выравнивание слева или справа
-  int accuracy;  // количество знаков после запятой
-  int print_plus;  // печатать ли плюсы
-  int space;  // печатать ли пробел если знак не выведен
-  int hash_spec;   // флаг #
-  int is_zero;     // Является ли число не нулём
-  int field_zero;  // нужно ли  заполнять слева нулями
-  char spec;       // какой спецификатор
-  char spec_size;  // длина спецификатора 
+  size_t width;   // ширина вывода
+  int left_allig; // выравнивание слева или справа
+  int accuracy;   // количество знаков после запятой
+  int print_plus; // печатать ли плюсы
+  int space; // печатать ли пробел если знак не выведен
+  int hash_spec;  // флаг #
+  int is_zero;    // Является ли число не нулём
+  int field_zero; // нужно ли  заполнять слева нулями
+  char spec;      // какой спецификатор
+  char spec_size; // длина спецификатора 
 } spec;
 
-void apply_padding(char **result, size_t curr_len, size_t padding_size,
+// void print_spec(spec *s) {
+//   if (s == NULL) {
+//     printf("Error: spec is NULL\n");
+//     return;
+//   }
+
+//   printf("Spec structure details:\n");
+//   printf("Width: %zu\n", s->width);
+//   printf("Left alignment: %d\n", s->left_allig);
+//   printf("Accuracy: %d\n", s->accuracy);
+//   printf("Print plus: %d\n", s->print_plus);
+//   printf("Space: %d\n", s->space);
+//   printf("Hash (#) flag: %d\n", s->hash_spec);
+//   printf("Is zero: %d\n", s->is_zero);
+//   printf("Field zero padding: %d\n", s->field_zero);
+//   printf("Specifier: %c\n", s->spec);
+//   printf("Specifier size: %d\n", s->spec_size);
+// }
+
+void shift_string(char **str, size_t str_len, size_t shift_size, char shift_char) {
+  // printf("\nSTRING BEFORE SHIFT. str: %s'\n", *str);
+  for (size_t i = str_len; i > 0; i--) {
+    (*str)[i + shift_size - 1] = (*str)[i - 1];
+  }
+
+  for (size_t i = 0; i < shift_size; i++) {
+    (*str)[i] = shift_char;
+  }
+  // printf("\nSTRING AFTER SHIFT. str: %s'\n", *str);
+}
+
+void apply_padding(char **result, size_t str_len, size_t padding_size,
                    char pad_char, int left_align) {
   if (left_align) {
     for (size_t i = 0; i < padding_size; i++) {
-      (*result)[curr_len + i] = pad_char;
+      (*result)[str_len + i] = pad_char;
     }
   } else {
-    for (size_t i = curr_len - 1; i < curr_len; i--) {
-      (*result)[i + padding_size] = (*result)[i];
-    }
-    for (size_t i = 0; i < padding_size; i++) {
-      (*result)[i] = pad_char;
-    }
+    shift_string(result, str_len, padding_size, pad_char);
   }
-  (*result)[curr_len + padding_size] = '\0';
+  (*result)[str_len + padding_size] = '\0';
 }
 
-char *reallocate_and_shift(char **result, size_t *curr_len,
-                           size_t add_space) {  // Don't work sprinf("%#3x",37);
-  char *temp = realloc(*result, sizeof(char) * (*curr_len + add_space + 1));
-  if (!temp) {
-    if (*result) {free(*result); *result = S21_NULL;}
-  } else {
-    for (size_t i = *curr_len; i > 0; i--) {
-      temp[i + add_space - 1] = temp[i - 1];
-    }
-
-    for (size_t i = 0; i < add_space; i++) {
-      temp[i] = '\0';
-    }
-    temp[*curr_len + add_space + 1] = '\0';
-
-    *result = temp;
-    *curr_len += add_space;
-  }
-  return temp;
+int need_hash_sign(spec *sp) {
+  return s21_strchr("oxX", sp->spec) && sp->hash_spec && !sp->is_zero;
 }
 
-void handle_numeric_specifiers(
-    spec *sp, char **result, size_t *curr_len,
-    size_t *padding_size) {  // Don't work sprinf("%#3x",37);
-  if (s21_strchr("oxX", sp->spec) && sp->hash_spec && !sp->is_zero) {
-    int hz = 0;
-    if (*padding_size > 0) {
-      if (sp->spec != 'o' && *padding_size > 1)
-        hz = 2;
-      else
-        hz = 1;
-    }
-    if (!(sp->spec == 'o' && (*result)[*padding_size] == '0')) {
-      size_t realloc_size = (sp->spec == 'o') ? 1 : 2;
-      if (*padding_size < realloc_size) {
-        reallocate_and_shift(result, curr_len, realloc_size);
-      }
-      (*result)[*padding_size - hz] = '0';
-      if (sp->spec != 'o') {
-        (*result)[*padding_size - hz + 1] = sp->spec;
-      }
-    }
-  }
+int need_sign(spec *sp) {
+  return s21_strchr("difeEgG", sp->spec) && (sp->print_plus || sp->space);
+}
 
-  if (s21_strchr("difeEgG", sp->spec) && (sp->print_plus || sp->space) &&
-      (*result)[*padding_size] != '-') {
+void handle_numeric_specifiers(spec *sp, char **result, size_t str_len, size_t result_len, size_t sign_size) {
+  // printf("\nHANDLE NUMERIC BEFORE REALLOC. str_len: %ld, result: '%s'\n\n", str_len, *result);
+  if (need_sign(sp)) {
     char sign = sp->print_plus ? '+' : ' ';
-    if (*padding_size < 1) {
-      reallocate_and_shift(result, curr_len, 1);
+
+    if (sp->left_allig) {
+      shift_string(result, str_len, 1, sign);
+      (*result)[result_len - 1] = '\0';
+    } else {
+      (*result)[result_len - str_len - 1] = sign;
     }
-    (*result)[*padding_size - 1] = sign;
+  }
+
+  if (need_hash_sign(sp)) {
+    if (sp->left_allig) {
+      shift_string(result, str_len, sign_size, 0);
+      (*result)[result_len - 1] = '\0';
+      if (sign_size == 2) {
+        (*result)[1] = sp->spec;
+      }
+    } else {
+      (*result)[result_len - str_len - sign_size] = 0;
+      if (sign_size == 2) {
+        (*result)[result_len - str_len - 1] = sp->spec;
+      }
+    }
   }
 }
 
@@ -100,27 +109,46 @@ char *format_string(spec *sp, char *buff) {
     return S21_NULL;
   }
 
-  size_t curr_len = s21_strlen(buff);
-  size_t padding_size = sp->width > curr_len ? sp->width - curr_len : 0;
-  size_t result_size = curr_len + padding_size + 1;
+  size_t str_len = s21_strlen(buff);
+  size_t padding_size = sp->width > str_len ? sp->width - str_len : 0;
 
-  char *result = malloc(sizeof(char) * (result_size));
+  size_t sign_size = 0;
+  if ((need_sign(sp) && (buff)[0] != '-') || need_hash_sign(sp)) {
+    if (need_sign(sp) || sp->spec == 'o') {
+      sign_size = 1;
+    } else {
+      sign_size = 2;
+    }
+
+    if (!sp->left_allig && padding_size >= sign_size) 
+      padding_size -= sign_size;
+  }
+
+  size_t result_size = str_len + padding_size + sign_size;
+
+  // printf("\nFORMAT STRING. str_len: %ld, padding_size: %ld, sign_size: %ld, result_size: %ld\n", str_len, padding_size, sign_size, result_size);
+  char *result = calloc(result_size + 1, sizeof(char));
   if (result != S21_NULL) {
-    s21_memset(result, 0, result_size);
     s21_strcpy(result, buff);
 
     char pad_char = (sp->field_zero && !sp->left_allig) ? '0' : ' ';
-    apply_padding(&result, curr_len, padding_size, pad_char, sp->left_allig);
+    apply_padding(&result, str_len, padding_size + sign_size, pad_char, sp->left_allig);
+    // printf("\nAFTER APPLY PADDING. curr_len: %ld, result: '%s'\n", str_len, result);
 
-    handle_numeric_specifiers(sp, &result, &curr_len, &padding_size);
+    if (sign_size != 0) {
+      handle_numeric_specifiers(sp, &result, str_len, result_size, sign_size);
+    }
+    // printf("\nAFTER HANDLE NUMERIC. curr_len: %ld, result: '%s'\n", str_len, result);
+
+    result[result_size] = '\0';
   }
-  result[result_size - 1] = '\0';
   return result;
 }
 
 s21_size_t s21_intlen(long long n) {
   s21_size_t count = 1;
-  if (n == 0) count = 0;
+  if (n == 0)
+    count = 0;
   while ((n = n / 10) != 0) {
     count++;
   }
@@ -218,7 +246,8 @@ char *my_uitoa(s21_uint num, char *str) {
 
 // Преобразование чисел с плавающей точкой
 char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
-  if (prec < 0) return S21_NULL;
+  if (prec < 0)
+    return S21_NULL;
 
   int integer_part = (int)num;
   long double fract_part = fabsl(num - integer_part);
@@ -233,7 +262,8 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
   }
   fract_part = round(fract_part);
 
-  for (int i = 0; i < prec; i++) fract_part /= 10;
+  for (int i = 0; i < prec; i++)
+    fract_part /= 10;
 
   if (fract_part >= 1.0) {
     integer_part++;
@@ -261,13 +291,17 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
     }
   }
 
-  if (fract_str) {free(fract_str); fract_str = S21_NULL;}
+  if (fract_str) {
+    free(fract_str);
+    fract_str = S21_NULL;
+  }
   return str;
 }
 
 int s21_uintlen(s21_uint n) {
   int count = 1;
-  if (n == 0) count = 0;
+  if (n == 0)
+    count = 0;
   while ((n = n / 10) != 0) {
     count++;
   }
@@ -279,9 +313,11 @@ long double count_e(long double num, int prec, int *e) {
     num /= 10;
     (*e)++;
     if (num < 10) {
-      for (int i = 0; i < prec; i++) num *= 10;
+      for (int i = 0; i < prec; i++)
+        num *= 10;
       num = round(num);
-      for (int i = 0; i < prec; i++) num /= 10;
+      for (int i = 0; i < prec; i++)
+        num /= 10;
     }
   }
 
@@ -289,9 +325,11 @@ long double count_e(long double num, int prec, int *e) {
     num *= 10;
     (*e)++;
     if (num > 1) {
-      for (int i = 0; i < prec; i++) num *= 10;
+      for (int i = 0; i < prec; i++)
+        num *= 10;
       num = round(num);
-      for (int i = 0; i < prec; i++) num /= 10;
+      for (int i = 0; i < prec; i++)
+        num /= 10;
       if (num >= 10.0) {
         num /= 10;
         (*e)--;
@@ -309,7 +347,8 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
     sign = -1;
     num *= sign;
   }
-  if (num < 1.0 && num != 0.0) sign_e = 0;
+  if (num < 1.0 && num != 0.0)
+    sign_e = 0;
 
   num = count_e(num, prec, &e);
 
@@ -321,18 +360,24 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
   s21_strcat(result, sign_e ? "+" : "-");
   char number[3] = {(e / 10 % 10) + '0', (e % 10) + '0'};
   s21_strcat(result, number);
-  if (temp) {free(temp); temp = S21_NULL;}
+  if (temp) {
+    free(temp);
+    temp = S21_NULL;
+  }
 
   return (result);
 }
 
 int chackE(double num, int prec, int *e) {
-  if (num == 0.0) return 0;
+  if (num == 0.0)
+    return 0;
   *e = 0;
   int sign_e = 1;
 
-  if (num < 0) num *= -1;
-  if (num < 1.0) sign_e = 0;
+  if (num < 0)
+    num *= -1;
+  if (num < 1.0)
+    sign_e = 0;
 
   num = count_e(num, prec - 1, e);
 
@@ -432,7 +477,7 @@ int process_specifiers(spec *sp, const char *string, int i) {
 int process_width(spec *sp, const char *string, int i, va_list *perm) {
   if (string[i] == '*') {
     sp->width = va_arg(*perm, int);
-    i++;  //!
+    i++; //!
   } else {
     while (string[i] >= '0' && string[i] <= '9') {
       sp->width = sp->width * 10 + (string[i] - '0');
@@ -448,7 +493,7 @@ int process_accuracy(spec *sp, const char *string, int i, va_list *perm) {
     i++;
     if (string[i] == '*') {
       sp->accuracy = va_arg(*perm, int);
-      i++;  //!
+      i++; //!
     } else {
       sp->accuracy = 0;
       while (string[i] >= '0' && string[i] <= '9') {
@@ -489,13 +534,13 @@ int process_spec(spec *sp, const char *string, int i) {
 
 int parse(spec *sp, const char *string, va_list *perm) {
   set_default_spec(sp);
-  int i = 1;  // пропуск %
+  int i = 1; // пропуск %
 
-  i = process_specifiers(sp, string, i);  // обработка спецификаторов
-  i = process_width(sp, string, i, perm);  // обработка ширины
-  i = process_accuracy(sp, string, i, perm);  // обработка точности
-  i = process_spec_size(sp, string, i);  // обработка размера спецификатора
-  i = process_spec(sp, string, i);  // обработка спецификатора
+  i = process_specifiers(sp, string, i); // обработка спецификаторов
+  i = process_width(sp, string, i, perm);    // обработка ширины
+  i = process_accuracy(sp, string, i, perm); // обработка точности
+  i = process_spec_size(sp, string, i); // обработка размера спецификатора
+  i = process_spec(sp, string, i); // обработка спецификатора
 
   return i;
 }
@@ -516,14 +561,16 @@ char *convert_signed_integer(long temp, int *sign) {
   }
   int temp_len = s21_intlen(temp);
   char *temp3 = malloc(temp_len + 1);
-  if (temp3 == S21_NULL) return S21_NULL;
+  if (temp3 == S21_NULL)
+    return S21_NULL;
 
   my_itoa(temp, temp3);
   return temp3;
 }
 
 void spec_d(char *buffer, va_list peremn, spec sp) {
-  if (sp.accuracy < 0) sp.accuracy = 1;
+  if (sp.accuracy < 0)
+    sp.accuracy = 1;
 
   int sign = 0;
   char *temp3 = S21_NULL;
@@ -542,7 +589,8 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
   if (temp3 != S21_NULL) {
     int temp_len = s21_strlen(temp3);
 
-    if (sign) s21_strcat(buffer, "-");
+    if (sign)
+      s21_strcat(buffer, "-");
 
     // ведущие нули
     for (int i = sp.accuracy - temp_len; i > 0; i--) {
@@ -550,12 +598,16 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
     }
 
     s21_strcat(buffer, temp3);
-    if (temp3) {free(temp3); temp3 = S21_NULL;}
+
+    free(temp3);
   }
+  // printf("\nSPEC_D. buffer: %s, sign: %d\n", buffer, sign);
+  // print_spec(&sp);
 }
 
 void spec_f(char *buffer, va_list *peremn, spec sp) {
-  if (sp.accuracy < 0) sp.accuracy = 6;
+  if (sp.accuracy < 0)
+    sp.accuracy = 6;
 
   char *temp2 = S21_NULL;
 
@@ -569,12 +621,16 @@ void spec_f(char *buffer, va_list *peremn, spec sp) {
 
   if (temp2 != S21_NULL) {
     s21_strcat(buffer, temp2);
-    if (temp2) {free(temp2); temp2 = S21_NULL;}
+    if (temp2) {
+      free(temp2);
+      temp2 = S21_NULL;
+    }
   }
 }
 
 void spec_u(char *buffer, va_list *peremn, spec sp) {
-  if (sp.accuracy < 0) sp.accuracy = 1;
+  if (sp.accuracy < 0)
+    sp.accuracy = 1;
 
   s21_uint temp;
   if (sp.spec_size == 'h') {
@@ -597,7 +653,8 @@ void spec_u(char *buffer, va_list *peremn, spec sp) {
 }
 
 void spec_g_G(char *buffer, va_list *peremn, spec sp) {
-  if (sp.accuracy < 0) sp.accuracy = 6;
+  if (sp.accuracy < 0)
+    sp.accuracy = 6;
 
   long double temp;
   if (sp.spec_size == 'a') {
@@ -609,7 +666,8 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
   char *temp2;
   int e = 0;
   if (chackE(temp, sp.accuracy, &e)) {
-    if (sp.accuracy == 0) sp.accuracy = 1;
+    if (sp.accuracy == 0)
+      sp.accuracy = 1;
     temp2 =
         etoa(temp, sp.accuracy - 1, (sp.spec == 'G') ? 1 : 0, 0, sp.hash_spec);
   } else {
@@ -619,16 +677,22 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
     } else {
       int_temp_len = s21_intlen((int)temp);
     }
-    if (int_temp_len == 0) int_temp_len = -1 * (e - 1);
-    if (temp == 0.0) int_temp_len = 1;
+    if (int_temp_len == 0)
+      int_temp_len = -1 * (e - 1);
+    if (temp == 0.0)
+      int_temp_len = 1;
     temp2 = my_gftoa(temp, sp.accuracy - int_temp_len, 0, sp.hash_spec);
   }
   s21_strcat(buffer, temp2);
-  if (temp2) {free(temp2); temp2 = S21_NULL;}
+  if (temp2) {
+    free(temp2);
+    temp2 = S21_NULL;
+  }
 }
 
 void spec_e_E(char *buffer, va_list *peremn, spec sp) {
-  if (sp.accuracy < 0) sp.accuracy = 6;
+  if (sp.accuracy < 0)
+    sp.accuracy = 6;
 
   s21_ldouble temp = 1;
   if (sp.spec_size == 'a') {
@@ -639,12 +703,15 @@ void spec_e_E(char *buffer, va_list *peremn, spec sp) {
 
   char *temp2 =
       etoa(temp, sp.accuracy, (sp.spec == 'E') ? 1 : 0, 1, sp.hash_spec);
-  if (temp2) {free(temp2); temp2 = S21_NULL;}
+  if (temp2) {
+    free(temp2);
+  }
   s21_strcat(buffer, temp2);
 }
 
 void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
-  if ((*sp).accuracy < 0) (*sp).accuracy = 1;
+  if ((*sp).accuracy < 0)
+    (*sp).accuracy = 1;
 
   s21_uint temp;
   if ((*sp).spec_size == 'h') {
@@ -659,18 +726,22 @@ void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
   char *temp2 = (char *)malloc(len_temp + 1);
   my_xtoa(temp, temp2, x_or_X);
 
-  if (temp == 0) (*sp).is_zero = 1;
+  if (temp == 0)
+    (*sp).is_zero = 1;
 
   for (int i = len_temp; i < (*sp).accuracy && temp != 0; i++) {
     s21_strcat(buffer, "0");
   }
 
   s21_strcat(buffer, temp2);
-  if (temp2) {free(temp2); temp2 = S21_NULL;}
+  if (temp2) {
+    free(temp2);
+  }
 }
 
 void spec_o(char *buffer, va_list *peremn, spec *sp) {
-  if ((*sp).accuracy < 0) (*sp).accuracy = 1;
+  if ((*sp).accuracy < 0)
+    (*sp).accuracy = 1;
 
   unsigned long temp;
   if ((*sp).spec_size == 'h') {
@@ -685,14 +756,17 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
   char *temp2 = (char *)malloc(len_temp * 2 + 1);
   my_otoa(temp, temp2);
 
-  if (temp == 0) (*sp).is_zero = 1;
+  if (temp == 0)
+    (*sp).is_zero = 1;
 
   for (int i = s21_strlen(temp2); i < (*sp).accuracy; i++) {
     s21_strcat(buffer, "0");
   }
 
   s21_strcat(buffer, temp2);
-  if (temp2) {free(temp2); temp2 = S21_NULL;}
+  if (temp2) {
+    free(temp2);
+  }
 }
 
 void spec_p(char *buffer, va_list *peremn) {
@@ -747,10 +821,14 @@ int s21_sprintf(char *str, const char *format, ...) {
   int j = 0;
   spec sp;
   int len = (int)s21_strlen(str);
-  for (char *p = str; p - str < len; p++) *p = '\0';
+  for (char *p = str; p - str < len; p++)
+    *p = '\0';
+  // printf("\nSPRINTF. init string: '%s', format: '%s'\n", str, format);
   for (s21_size_t i = 0; i < length && format[i]; i++) {
     if (format[i] != '%') {
       str[j++] = format[i];
+      if (i == length - 1)
+        str[j] = '\0';
     } else {
       str[j] = '\0';
       i += parse(&sp, &format[i], &peremn);
@@ -758,7 +836,10 @@ int s21_sprintf(char *str, const char *format, ...) {
       check_spec(&sp, &peremn, buffer);
       char *temp = format_string(&sp, buffer);
       s21_strcat(str, temp);
-      if (temp) {free(temp); temp = S21_NULL;}
+      if (temp) {
+        free(temp);
+        temp = S21_NULL;
+      }
       j = s21_strlen(str);
     }
   }
