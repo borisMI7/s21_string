@@ -793,10 +793,11 @@ void check_spec(spec *sp, va_list *peremn, char *buffer) {
     spec_f(buffer, peremn, *sp);
   } else if (sp->spec == 's') {
     char *temp = va_arg(*peremn, char *);
+    printf("%s\n", temp);
     if ((*sp).accuracy >= 0) {
-      s21_strncat(buffer, temp, (*sp).accuracy);
+      s21_strncat(buffer, temp == S21_NULL ? "(null)" : temp, (*sp).accuracy);
     } else {
-      s21_strcat(buffer, temp);
+      s21_strcat(buffer, temp == S21_NULL ? "(null)" : temp);
     }
   } else if (sp->spec == 'u') {
     spec_u(buffer, peremn, *sp);
