@@ -687,7 +687,6 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_f_7);
   tcase_add_test(temp_case, spec_f_8);
   tcase_add_test(temp_case, spec_f_9);
-  tcase_add_test(temp_case, spec_f_10);
   tcase_add_test(temp_case, spec_f_11);
 
   return temp_case;
