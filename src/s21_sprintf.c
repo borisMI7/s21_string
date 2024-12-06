@@ -793,7 +793,6 @@ void check_spec(spec *sp, va_list *peremn, char *buffer) {
     spec_f(buffer, peremn, *sp);
   } else if (sp->spec == 's') {
     char *temp = va_arg(*peremn, char *);
-    printf("%s\n", temp);
     if ((*sp).accuracy >= 0) {
       s21_strncat(buffer, temp == S21_NULL ? "(null)" : temp, (*sp).accuracy);
     } else {
