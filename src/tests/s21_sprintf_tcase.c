@@ -451,7 +451,7 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
 }
 END_TEST
 
-START_TEST(spec_d_37) {
+START_TEST(spec_d_38) {
 char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
   n1 = sprintf(str1, "here is the number: lol % -*.*d", 10, 20, 15);
@@ -545,9 +545,9 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_32);
   tcase_add_test(temp_case, spec_d_33);
   tcase_add_test(temp_case, spec_d_34);
-  tcase_add_test(temp_case, spec_d_35);
   tcase_add_test(temp_case, spec_d_36);
   tcase_add_test(temp_case, spec_d_37);
+  tcase_add_test(temp_case, spec_d_38);
   tcase_add_test(temp_case, spec_d_special_1);
 
   return temp_case;
