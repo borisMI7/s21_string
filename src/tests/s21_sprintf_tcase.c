@@ -156,13 +156,14 @@ START_TEST(spec_d_11) {
 }
 END_TEST
 
-START_TEST(spec_d_12) {
-  char str1[1000], str2[1000];
-  sprintf(str1, "here is the number: %0+10.*d", 1234, 5);
-  s21_sprintf(str2, "here is the number: %0+10.*d", 1234, 5);
-  ck_assert_str_eq(str1, str2);
-}
-END_TEST
+// illigal unstruction and prohibbiten GNU flag usage
+// START_TEST(spec_d_12) {
+//   char str1[1000], str2[1000];
+//   sprintf(str1, "here is the number: %0+10.*d", 1234, 5);
+//   s21_sprintf(str2, "here is the number: %0+10.*d", 1234, 5);
+//   ck_assert_str_eq(str1, str2);
+// }
+// END_TEST
 
 START_TEST(spec_d_13) {
   char str1[1000], str2[1000];
@@ -255,7 +256,7 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_9);
   tcase_add_test(temp_case, spec_d_10);
   tcase_add_test(temp_case, spec_d_11);
-  tcase_add_test(temp_case, spec_d_12);
+  // tcase_add_test(temp_case, spec_d_12);
   tcase_add_test(temp_case, spec_d_13);
   tcase_add_test(temp_case, spec_d_14);
   tcase_add_test(temp_case, spec_d_15);
