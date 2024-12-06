@@ -343,14 +343,9 @@ START_TEST(spec_d_34) {
 END_TEST
 
 START_TEST(spec_d_35) {
-  char str1[1024] = "";
-  char str2[1024] = "";
-  int x = 99999;
-  char *format = "|%015.10d|\n";
-  int res1 = s21_sprintf(str1, format, x);
-  int res2 = sprintf(str2, format, x);
-
-  ck_assert_int_eq(res1, res2);
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %015.10d lol", 123);
+  s21_sprintf(str2, "here is the number: %015.10d lol", 123);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
