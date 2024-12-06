@@ -91,6 +91,26 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
 }
 END_TEST
 
+START_TEST(spec_c_9) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is letter: %-*c", 'a', CHAR_MAX);
+  n2 = s21_sprintf(str2, "here is letter: %-*c", 'a', CHAR_MAX);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_c_10) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is letter: %-*c", 'a', CHAR_MIN);
+  n2 = s21_sprintf(str2, "here is letter: %-*c", 'a', CHAR_MIN);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
 START_TEST(spec_d_1) {
 char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
@@ -494,9 +514,116 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
 }
 END_TEST
 
+START_TEST(spec_f_1) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %f", (float)10);
+  n2 = s21_sprintf(str2, "here is the number: lol %f", (float)10);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
+START_TEST(spec_f_2) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %f", 10.0);
+  n2 = s21_sprintf(str2, "here is the number: lol %f", 10.0);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
+START_TEST(spec_f_3) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %f", 10.1232);
+  n2 = s21_sprintf(str2, "here is the number: lol %f", 10.1232);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
+START_TEST(spec_f_4) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %lf", (double)10.1232);
+  n2 = s21_sprintf(str2, "here is the number: lol %lf", (double)10.1232);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_5) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %Lf", (long double)15.12345e-35);
+  n2 = s21_sprintf(str2, "here is the number: lol %Lf", (long double)15.12345e-35);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_6) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %f", FLT_MAX);
+  n2 = s21_sprintf(str2, "here is the number: lol %f", FLT_MAX);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_7) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %f", FLT_MIN);
+  n2 = s21_sprintf(str2, "here is the number: lol %f", FLT_MIN);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_8) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %lf", DBL_MAX);
+  n2 = s21_sprintf(str2, "here is the number: lol %lf", DBL_MAX);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_9) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %lf", DBL_MIN);
+  n2 = s21_sprintf(str2, "here is the number: lol %lf", DBL_MIN);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+// illigal instruction for original one
+// START_TEST(spec_f_10) {
+// char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+//   int n1 = 0, n2 = 0;
+//   n1 = sprintf(str1, "here is the number: lol %Lf", LDBL_MAX);
+//   n2 = s21_sprintf(str2, "here is the number: lol %Lf", LDBL_MAX);
+//   ck_assert_str_eq(str1, str2);
+//   ck_assert_int_eq(n1, n2);
+// }
+// END_TEST
+
+START_TEST(spec_f_11) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %Lf", LDBL_MIN);
+  n2 = s21_sprintf(str2, "here is the number: lol %Lf", LDBL_MIN);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
 
 
@@ -512,6 +639,8 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_c_6);
   tcase_add_test(temp_case, spec_c_7);
   tcase_add_test(temp_case, spec_c_8);
+  tcase_add_test(temp_case, spec_c_9);
+  tcase_add_test(temp_case, spec_c_10);
   tcase_add_test(temp_case, returning_value_tests);
   tcase_add_test(temp_case, spec_d_1);
   tcase_add_test(temp_case, spec_d_2);
@@ -549,6 +678,17 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_37);
   tcase_add_test(temp_case, spec_d_38);
   tcase_add_test(temp_case, spec_d_special_1);
+  tcase_add_test(temp_case, spec_f_1);
+  tcase_add_test(temp_case, spec_f_2);
+  tcase_add_test(temp_case, spec_f_3);
+  tcase_add_test(temp_case, spec_f_4);
+  tcase_add_test(temp_case, spec_f_5);
+  tcase_add_test(temp_case, spec_f_6);
+  tcase_add_test(temp_case, spec_f_7);
+  tcase_add_test(temp_case, spec_f_8);
+  tcase_add_test(temp_case, spec_f_9);
+  tcase_add_test(temp_case, spec_f_10);
+  tcase_add_test(temp_case, spec_f_11);
 
   return temp_case;
 }

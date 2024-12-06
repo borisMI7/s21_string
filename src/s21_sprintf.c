@@ -836,7 +836,7 @@ int s21_sprintf(char *str, const char *format, ...) {
     } else {
       str[j] = '\0';
       i += parse(&sp, &format[i], &peremn);
-      char buffer[2048] = {0};
+      char buffer[4096] = {0};
       check_spec(&sp, &peremn, buffer);
       char *temp = format_string(&sp, buffer);
       s21_strcat(str, temp);
