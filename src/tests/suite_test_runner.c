@@ -5,6 +5,7 @@
 #include "s21_memcmp_tcase.c"
 #include "s21_memcpy_tcase.c"
 #include "s21_memset_tcase.c"
+#include "s21_sprintf_tcase.c"
 #include "s21_strchr_tcase.c"
 #include "s21_strcspn_tcase.c"
 #include "s21_strerror_tcase.c"
@@ -19,7 +20,6 @@
 #include "s21_to_lower_tcase.c"
 #include "s21_to_upper_tcase.c"
 #include "s21_trim_tcase.c"
-#include "s21_sprintf_tcase.c"
 
 Suite *untie_tacses_to_suit(void) {
   Suite *s = suite_create("s21_strung_plus_testing");
