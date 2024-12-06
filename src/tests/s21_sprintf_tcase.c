@@ -625,8 +625,206 @@ char str1[1000] = {'\0'}, str2[1000] = {'\0'};
 }
 END_TEST
 
+START_TEST(spec_f_12) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %5Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %5Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_13) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %15Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %15Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_14) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %5.10Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %5.10Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_15) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %25.10Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %25.10Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_16) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %15.0Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %15.0Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_17) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#15.0Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#15.0Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_18) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#15.Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#15.Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_19) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#15Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#15Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_20) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#015Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#015Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_21) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#0+15Lf", (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#0+15Lf", (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_22) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#0+15.*Lf", 0, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#0+15.*Lf", 0, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_23) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#0+*.5Lf", 15, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#0+*.5Lf", 15, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
 
+START_TEST(spec_f_24) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#0+*.*Lf", 15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#0+*.*Lf", 15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_25) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %#+*.*Lf", -15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %#+*.*Lf", -15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_26) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %+*.*Lf", -15, 0, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %+*.*Lf", -15, 0, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_27) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %# *.*Lf", -15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %# *.*Lf", -15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_28) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol % *.*Lf", -15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol % *.*Lf", -15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_29) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %# -*.*Lf", 15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol %# -*.*Lf", 15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_30) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol % *.*Lf", 15, 5, (long double)1337.1488);
+  n2 = s21_sprintf(str2, "here is the number: lol % *.*Lf", 15, 5, (long double)1337.1488);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_f_31) {
+char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: lol %Lf", 5.141592653589793238462643383279502884L);
+  n2 = s21_sprintf(str2, "here is the number: lol %Lf", 5.141592653589793238462643383279502884L);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
 
 
 TCase *s21_sprintf_create_tcase(void) {
@@ -688,6 +886,25 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_f_8);
   tcase_add_test(temp_case, spec_f_9);
   tcase_add_test(temp_case, spec_f_11);
-
+  tcase_add_test(temp_case, spec_f_12);
+  tcase_add_test(temp_case, spec_f_13);
+  tcase_add_test(temp_case, spec_f_14);
+  tcase_add_test(temp_case, spec_f_15);
+  tcase_add_test(temp_case, spec_f_16);
+  tcase_add_test(temp_case, spec_f_17);
+  tcase_add_test(temp_case, spec_f_18);
+  tcase_add_test(temp_case, spec_f_19);
+  tcase_add_test(temp_case, spec_f_20);
+  tcase_add_test(temp_case, spec_f_21);
+  tcase_add_test(temp_case, spec_f_22);
+  tcase_add_test(temp_case, spec_f_23);
+  tcase_add_test(temp_case, spec_f_24);
+  tcase_add_test(temp_case, spec_f_25);
+  tcase_add_test(temp_case, spec_f_26);
+  tcase_add_test(temp_case, spec_f_27);
+  tcase_add_test(temp_case, spec_f_28);
+  tcase_add_test(temp_case, spec_f_29);
+  tcase_add_test(temp_case, spec_f_30);
+  tcase_add_test(temp_case, spec_f_31);
   return temp_case;
 }
