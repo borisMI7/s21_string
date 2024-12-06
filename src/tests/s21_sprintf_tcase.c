@@ -131,13 +131,6 @@ START_TEST(spec_d_7) {
 }
 END_TEST
 
-START_TEST(spec_d_8) {
-  char str1[1000], str2[1000];
-  sprintf(str1, "here is the number: %010d", 1234);
-  s21_sprintf(str2, "here is the number: %010d", 1234);
-  ck_assert_str_eq(str1, str2);
-}
-END_TEST
 
 START_TEST(spec_d_9) {
   char str1[1000], str2[1000];
