@@ -131,6 +131,13 @@ START_TEST(spec_d_7) {
 }
 END_TEST
 
+START_TEST(spec_d_8) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: % 20.10d lol", 123);
+  s21_sprintf(str2, "here is the number: % 20.10d lol", 123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
 
 START_TEST(spec_d_9) {
   char str1[1000], str2[1000];
@@ -192,16 +199,16 @@ END_TEST
 
 START_TEST(spec_d_18) {
   char str1[1000], str2[1000];
-  sprintf(str1, "here is the number: %hd", (short)-32767);
-  s21_sprintf(str2, "here is the number: %hd", (short)-32767);
+  sprintf(str1, "here is the number: %hd", (short)SHRT_MIN);
+  s21_sprintf(str2, "here is the number: %hd", (short)SHRT_MIN);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
 START_TEST(spec_d_19) {
   char str1[1000], str2[1000];
-  sprintf(str1, "here is the number: %hd", (short)32766);
-  s21_sprintf(str2, "here is the number: %hd", (short)32766);
+  sprintf(str1, "here is the number: %hd", (short)SHRT_MAX);
+  s21_sprintf(str2, "here is the number: %hd", (short)SHRT_MAX);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
@@ -335,15 +342,33 @@ START_TEST(spec_d_34) {
 }
 END_TEST
 
+START_TEST(spec_d_35) {
+  char str1[1024] = "";
+  char str2[1024] = "";
+  int x = 99999;
+  char *format = "|%015.10d|\n";
+  int res1 = s21_sprintf(str1, format, x);
+  int res2 = sprintf(str2, format, x);
 
-
-START_TEST(spec_d_8) {
-  char str1[1000], str2[1000];
-  sprintf(str1, "here is the number: % 20.10d lol", 123);
-  s21_sprintf(str2, "here is the number: % 20.10d lol", 123);
+  ck_assert_int_eq(res1, res2);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
+
+START_TEST(spec_d_special_1) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %*d lol", 123, 10);
+  s21_sprintf(str2, "here is the number: %*d lol", 123, 10);
+  ck_assert_str_eq(str1, str2);
+  sprintf(str1, "here is the number: %*d lol", 123, 10);
+  s21_sprintf(str2, "here is the number: %*d lol", 123, 10);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+
+
+
 
 
 
@@ -392,5 +417,6 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_32);
   tcase_add_test(temp_case, spec_d_33);
   tcase_add_test(temp_case, spec_d_34);
+  tcase_add_test(temp_case, spec_d_35);
   return temp_case;
 }
