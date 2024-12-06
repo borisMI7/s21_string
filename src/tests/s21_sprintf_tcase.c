@@ -222,6 +222,62 @@ START_TEST(spec_d_21) {
 }
 END_TEST
 
+START_TEST(spec_d_22) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %-1.10d lol", 123);
+  s21_sprintf(str2, "here is the number: %-1.10d lol", 123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_23) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+.10d lol", 123);
+  s21_sprintf(str2, "here is the number: %+.10d lol", 123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_24) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+.2d lol", 123);
+  s21_sprintf(str2, "here is the number: %+.2d lol", 123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_25) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+.2d lol", -123);
+  s21_sprintf(str2, "here is the number: %+.2d lol", -123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_26) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+.10d lol", -123);
+  s21_sprintf(str2, "here is the number: %+.10d lol", -123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_27) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+-.10d lol", -123);
+  s21_sprintf(str2, "here is the number: %+-.10d lol", -123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_28) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %+0.10d lol", -123);
+  s21_sprintf(str2, "here is the number: %+0.10d lol", -123);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
 START_TEST(spec_d_8) {
   char str1[1000], str2[1000];
   sprintf(str1, "here is the number: % 20.10d lol", 123);
@@ -264,5 +320,12 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_19);
   tcase_add_test(temp_case, spec_d_20);
   tcase_add_test(temp_case, spec_d_21);
+  tcase_add_test(temp_case, spec_d_22);
+  tcase_add_test(temp_case, spec_d_23);
+  tcase_add_test(temp_case, spec_d_24);
+  tcase_add_test(temp_case, spec_d_25);
+  tcase_add_test(temp_case, spec_d_26);
+  tcase_add_test(temp_case, spec_d_27);
+  tcase_add_test(temp_case, spec_d_28);
   return temp_case;
 }
