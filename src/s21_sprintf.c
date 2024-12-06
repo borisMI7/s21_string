@@ -477,9 +477,10 @@ int process_specifiers(spec *sp, const char *string, int i) {
 int process_width(spec *sp, const char *string, int i, va_list *perm) {
   if (string[i] == '*') {
     sp->width = va_arg(*perm, int);
-    if (sp->width < 0) {
+    if ((int)sp->width < 0) {
       sp->width *= -1;
       sp->left_allig = 1;
+      
     }
     i++; //!
   } else {

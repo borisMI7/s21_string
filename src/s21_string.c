@@ -403,9 +403,11 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
 void s21_strcpy(char *dest, const char *src) { while ((*dest++ = *src++)); }
 
 void s21_strcat(char *dest, const char *src) {
-  char *p = dest;
-  while (*p) p++;
-  while ((*p++ = *src++));
+  if (dest != S21_NULL && src != S21_NULL) {
+    char *p = dest;
+    while (*p) p++;
+    while ((*p++ = *src++));
+  }
 }
 
 char *s21_itoa(int num, char *str) {
