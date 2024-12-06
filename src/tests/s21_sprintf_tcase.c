@@ -306,10 +306,36 @@ END_TEST
 START_TEST(spec_d_31) {
   char str1[1000], str2[1000];
   sprintf(str1, "here is the number: %*d lol", -123, 10);
-  // s21_sprintf(str2, "here is the number: %*d lol", -123, 10);
+  s21_sprintf(str2, "here is the number: %*d lol", -123, 10);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
+
+START_TEST(spec_d_32) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %*.*d lol", 123, 10, 5);
+  s21_sprintf(str2, "here is the number: %*.*d lol", 123, 10, 5);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_33) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %*.5d lol", 123, 10);
+  s21_sprintf(str2, "here is the number: %*.5d lol", 123, 10);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_d_34) {
+  char str1[1000], str2[1000];
+  sprintf(str1, "here is the number: %*d lol", 123, 10);
+  s21_sprintf(str2, "here is the number: %*d lol", 123, 10);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+
 
 START_TEST(spec_d_8) {
   char str1[1000], str2[1000];
@@ -363,5 +389,8 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_29);
   tcase_add_test(temp_case, spec_d_30);
   tcase_add_test(temp_case, spec_d_31);
+  tcase_add_test(temp_case, spec_d_32);
+  tcase_add_test(temp_case, spec_d_33);
+  tcase_add_test(temp_case, spec_d_34);
   return temp_case;
 }

@@ -477,6 +477,10 @@ int process_specifiers(spec *sp, const char *string, int i) {
 int process_width(spec *sp, const char *string, int i, va_list *perm) {
   if (string[i] == '*') {
     sp->width = va_arg(*perm, int);
+    if (sp->width < 0) {
+      sp->width *= -1;
+      sp->left_allig = 1;
+    }
     i++; //!
   } else {
     while (string[i] >= '0' && string[i] <= '9') {
@@ -535,7 +539,6 @@ int process_spec(spec *sp, const char *string, int i) {
 int parse(spec *sp, const char *string, va_list *perm) {
   set_default_spec(sp);
   int i = 1; // пропуск %
-
   i = process_specifiers(sp, string, i); // обработка спецификаторов
   i = process_width(sp, string, i, perm);    // обработка ширины
   i = process_accuracy(sp, string, i, perm); // обработка точности
