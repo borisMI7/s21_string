@@ -1276,6 +1276,36 @@ START_TEST(spec_gG_14) {
 }
 END_TEST
 
+START_TEST(spec_gG_15) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", 2.3, -1.5);
+  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", 2.3, -1.5);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_gG_16) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
+  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_gG_17) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", NAN, -NAN);
+  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", NAN, -NAN);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
 TCase *s21_sprintf_create_tcase(void) {
   TCase *temp_case = tcase_create("S21_SPRINTF_TESTING:\n");
   tcase_add_test(temp_case, spec_c_1);
@@ -1393,5 +1423,8 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_gG_12);
   tcase_add_test(temp_case, spec_gG_13);
   tcase_add_test(temp_case, spec_gG_14);
+  tcase_add_test(temp_case, spec_gG_15);
+  tcase_add_test(temp_case, spec_gG_16);
+  tcase_add_test(temp_case, spec_gG_17);
   return temp_case;
 }
