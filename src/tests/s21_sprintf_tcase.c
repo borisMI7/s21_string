@@ -1954,6 +1954,7 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_xX_6);
   tcase_add_test(temp_case, spec_xX_7);
   tcase_add_test(temp_case, spec_xX_8);
+  tcase_add_test(temp_case, spec_xX_9);
   tcase_add_test(temp_case, spec_o_1);
   tcase_add_test(temp_case, spec_o_2);
   tcase_add_test(temp_case, spec_o_3);
