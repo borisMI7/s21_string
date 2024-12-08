@@ -1116,6 +1116,166 @@ START_TEST(spec_u_11) {
 }
 END_TEST
 
+START_TEST(spec_percnet_1) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %% %d", 1234);
+  n2 = s21_sprintf(str2, "here is the number: %% %d", 1234);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_percnet_2) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %%%%%%%%%%%% %d", 1234);
+  n2 = s21_sprintf(str2, "here is the number: %%%%%%%%%%%% %d", 1234);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_1) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %g %G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %g %G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_2) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %5.g %5.G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %5.g %5.G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_3) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %5.3g %5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %5.3g %5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_4) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %5.0g %5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %5.0g %5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_5) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-5.0g %-5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %-5.0g %-5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_6) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+-5.3g %+-5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+-5.3g %+-5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_7) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-#5.0g %-#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %-#5.0g %-#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_8) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: % -#5.0g % -#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#5.0g % -#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_9) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: % -#*.0g % -#*.0G", 50, 123423421431.431431412, 50, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#*.0g % -#*.0G", 50, 123423421431.431431412, 50, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_10) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: % -#*.*g % -#*.*G", 50, 4, 123423421431.431431412, 50, 4, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#*.*g % -#*.*G", 50, 4, 123423421431.431431412, 50, 4, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_11) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: % -#5.*g % -#5.*G", -60, 123423421431.431431412, 0, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#5.*g % -#5.*G", -60, 123423421431.431431412, 0, -121232124554534334.345678908765);
+  ck_assert_int_eq(n1, n2);
+  ck_assert_str_eq(str1, str2);
+}
+END_TEST
+
+START_TEST(spec_gG_12) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+05.3g %+05.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+05.3g %+05.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_gG_13) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+5.3g %+5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+5.3g %+5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_gG_14) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
 TCase *s21_sprintf_create_tcase(void) {
   TCase *temp_case = tcase_create("S21_SPRINTF_TESTING:\n");
   tcase_add_test(temp_case, spec_c_1);
@@ -1217,5 +1377,21 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_u_9);
   tcase_add_test(temp_case, spec_u_10);
   tcase_add_test(temp_case, spec_u_11);
+  tcase_add_test(temp_case, spec_percnet_1);
+  tcase_add_test(temp_case, spec_percnet_2);
+  tcase_add_test(temp_case, spec_gG_1);
+  tcase_add_test(temp_case, spec_gG_2);
+  tcase_add_test(temp_case, spec_gG_3);
+  tcase_add_test(temp_case, spec_gG_4);
+  tcase_add_test(temp_case, spec_gG_5);
+  tcase_add_test(temp_case, spec_gG_6);
+  tcase_add_test(temp_case, spec_gG_7);
+  tcase_add_test(temp_case, spec_gG_8);
+  tcase_add_test(temp_case, spec_gG_9);
+  tcase_add_test(temp_case, spec_gG_10);
+  tcase_add_test(temp_case, spec_gG_11);
+  tcase_add_test(temp_case, spec_gG_12);
+  tcase_add_test(temp_case, spec_gG_13);
+  tcase_add_test(temp_case, spec_gG_14);
   return temp_case;
 }
