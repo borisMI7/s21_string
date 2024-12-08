@@ -264,7 +264,6 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
   s21_size_t total_len = int_len + prec + 2;
 
   char *str = malloc(total_len * sizeof(char));
-
   for (int i = 0; i < prec; i++) {
     fract_part *= 10;
   }
@@ -290,14 +289,12 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
     s21_strcat(str, ".");
   }
   s21_strcat(str, fract_str);
-
   if (zero_y_n || hash_spec) {
     int zero_count = prec - s21_strlen(fract_str);
     for (int i = 0; i < zero_count; i++) {
       s21_strcat(str, "0");
     }
   }
-
   if (fract_str) {
     free(fract_str);
     fract_str = S21_NULL;
@@ -356,6 +353,7 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
   char *result = malloc((s21_strlen(temp) + 2) * sizeof(char));
+  s21_memset(result, 0,(s21_strlen(temp) + 2));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
   s21_strcat(result, sign_e ? "+" : "-");
@@ -664,6 +662,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
     if (sp.accuracy == 0) sp.accuracy = 1;
     temp2 =
         etoa(temp, sp.accuracy - 1, (sp.spec == 'G') ? 1 : 0, 0, sp.hash_spec);
+    
   } else {
     int int_temp_len;
     if (sp.spec_size == 'L') {
