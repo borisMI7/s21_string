@@ -1,6 +1,5 @@
 #include "s21_string.h"
 
-#include <stdio.h>
 
 // FUNCTION NUMBER 1
 void *s21_memchr(const void *str, int c, s21_size_t n) {

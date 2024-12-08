@@ -1,8 +1,5 @@
-#include <math.h>
-#include <stdarg.h>
-#include <stdio.h>
+// #include <stdio.h>
 // #include <string.h>
-#include <limits.h>
 
 #include "s21_string.h"
 

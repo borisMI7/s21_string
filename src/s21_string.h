@@ -2,6 +2,9 @@
 #define S21_STRING_H
 
 #include <stdlib.h>
+#include <stdarg.h>
+#include <limits.h>
+#include <math.h>
 
 #define S21_NULL ((void *)0)
 

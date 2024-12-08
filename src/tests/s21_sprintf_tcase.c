@@ -1607,8 +1607,8 @@ END_TEST
 START_TEST(spec_xX_3) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %-10.x %-#10.0X", 6543, -543);
-  n2 = s21_sprintf(str2, "here is the number: %-10.x %-#10.0X", 6543, -543);
+  n1 = sprintf(str1, "here is the number: %-10.x %-10.0X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %-10.x %-10.0X", 6543, -543);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1624,6 +1624,52 @@ START_TEST(spec_xX_4) {
 }
 END_TEST
 
+START_TEST(spec_xX_5) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-#10.0x %-#10.0X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %-#10.0x %-#10.0X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_6) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-#10.5x %-#10.5X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %-#10.5x %-#10.5X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_7) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %#10.0x %#10.0X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %#10.0x %#10.0X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+
+START_TEST(spec_xX_8) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %*.*x %*.*X", 15, 10, 6543, -15, 10, -543);
+  n2 = s21_sprintf(str2, "here is the number: %*.*x %*.*X", 15, 10, 6543, -15, 10, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+
+START_TEST(spec_xX_9) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %0x %0X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %0x %0X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
 
 TCase *s21_sprintf_create_tcase(void) {
   TCase *temp_case = tcase_create("S21_SPRINTF_TESTING:\n");
@@ -1776,5 +1822,10 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_xX_2);
   tcase_add_test(temp_case, spec_xX_3);
   tcase_add_test(temp_case, spec_xX_4);
+  tcase_add_test(temp_case, spec_xX_5);
+  tcase_add_test(temp_case, spec_xX_6);
+  tcase_add_test(temp_case, spec_xX_7);
+  tcase_add_test(temp_case, spec_xX_8);
+  tcase_add_test(temp_case, spec_xX_9);
   return temp_case;
 }
