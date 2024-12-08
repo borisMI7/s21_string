@@ -775,7 +775,7 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
 
 void spec_p(char *buffer, va_list *peremn) {
   void *temp = va_arg(*peremn, void *);
-  char temp2[15];
+  char temp2[15] = {'\0'};
   vtoa(temp, temp2);
   s21_strcat(buffer, temp2);
 }
