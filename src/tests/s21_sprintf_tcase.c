@@ -1573,6 +1573,57 @@ START_TEST(spec_p_6) {
 }
 END_TEST
 
+START_TEST(spec_p_7) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  char *pointer = "ABOAB";
+  n1 = sprintf(str1, "here is the number: %*p", -5, pointer);
+  n2 = s21_sprintf(str2, "here is the number: %*p", -5, pointer);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_1) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %x %X", 0xf54321, 0xf54321);
+  n2 = s21_sprintf(str2, "here is the number: %x %X", 0xf54321, 0xf54321);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_2) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %x %X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %x %X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_3) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-10.x %-#10.0X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %-10.x %-#10.0X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
+START_TEST(spec_xX_4) {
+  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
+  int n1 = 0, n2 = 0;
+  n1 = sprintf(str1, "here is the number: %-10.4x %-10.10X", 6543, -543);
+  n2 = s21_sprintf(str2, "here is the number: %-10.4x %-10.10X", 6543, -543);
+  ck_assert_str_eq(str1, str2);
+  ck_assert_int_eq(n1, n2);
+}
+END_TEST
+
 
 TCase *s21_sprintf_create_tcase(void) {
   TCase *temp_case = tcase_create("S21_SPRINTF_TESTING:\n");
@@ -1720,5 +1771,10 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_p_4);
   tcase_add_test(temp_case, spec_p_5);
   tcase_add_test(temp_case, spec_p_6);
+  tcase_add_test(temp_case, spec_p_7);
+  tcase_add_test(temp_case, spec_xX_1);
+  tcase_add_test(temp_case, spec_xX_2);
+  tcase_add_test(temp_case, spec_xX_3);
+  tcase_add_test(temp_case, spec_xX_4);
   return temp_case;
 }
