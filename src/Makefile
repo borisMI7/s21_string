@@ -3,9 +3,9 @@ FLAGS=-Wall -Werror -Wextra -std=c11
 LFLAGS=
 OS=$(shell uname)
 ifeq ($(OS), Linux)
-	LFLAGS=-lcheck -lm -lsubunit
+	LFLAGS=-lcheck -lsubunit -lm
 else ifeq ($(OS), Darwin)
-	LFLAGS=-lcheck
+	LFLAGS=-lcheck -lm
 endif
 
 

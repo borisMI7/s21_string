@@ -82,10 +82,10 @@ START_TEST(s21_strtok_test_number_7) {
 END_TEST
 
 START_TEST(s21_strtok_test_number_8) {
-  char str1[] = "zxc/cxz/p[k]_kopaf/lkdpojad1dmsalda";
-  char str2[] = "zxc/cxz/p[k]_kopaf/lkdpojad1dmsalda";
-  char str3[] = "zxc/cxz_p[k]_kopaf1lkdpojad1dmsalda";
-  char str4[] = "zxc/cxz_p[k]_kopaf1lkdpojad1dmsalda";
+  char str1[] = "zxc/cxz/p[k]_k\0opaf/lkdpojad1dmsalda";
+  char str2[] = "zxc/cxz/p[k]_k\0opaf/lkdpojad1dmsalda";
+  char str3[] = "zxc/cxz_p[k]_k\0opaf1lkdpojad1dmsalda";
+  char str4[] = "zxc/cxz_p[k]_k\0opaf1lkdpojad1dmsalda";
   char *ptr1 = strtok(str1, "1/_"), *ptr2 = s21_strtok(str2, "1/_");
   ck_assert_str_eq(ptr1, ptr2);
   ck_assert_str_eq(str1, str2);

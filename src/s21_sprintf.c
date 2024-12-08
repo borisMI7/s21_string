@@ -1,4 +1,4 @@
-// #include <stdio.h>
+#include <stdio.h>
 // #include <string.h>
 
 #include "s21_string.h"
@@ -79,7 +79,6 @@ void handle_numeric_specifiers(spec *sp, char **result, size_t str_len,
   // str_len, *result);
   if (need_sign(sp)) {
     char sign = sp->print_plus ? '+' : ' ';
-
     if (sp->left_allig) {
       shift_string(result, str_len, 1, sign);
       if (result_len > str_len + 1) {
