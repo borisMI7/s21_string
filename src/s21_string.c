@@ -10,10 +10,7 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
     if (*p == c) {
       n = 0;
       res = (void *)p;
-    } else if (*p == '\0') {
-      n = 0;
-    } else
-      p++;
+    } else p++;
   }
   return res;
 }

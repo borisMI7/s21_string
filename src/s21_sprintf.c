@@ -14,9 +14,9 @@ typedef short int s21_sint;
 typedef struct spec {
   size_t width;    // ширина вывода
   int left_allig;  // выравнивание слева или справа
-  int accuracy;  // количество знаков после запятой
+  int accuracy;    // количество знаков после запятой
   int print_plus;  // печатать ли плюсы
-  int space;  // печатать ли пробел если знак не выведен
+  int space;       // печатать ли пробел если знак не выведен
   int hash_spec;   // флаг #
   int is_zero;     // Является ли число не нулём
   int field_zero;  // нужно ли  заполнять слева нулями
@@ -353,7 +353,7 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
   char *result = malloc((s21_strlen(temp) + 2) * sizeof(char));
-  s21_memset(result, 0,(s21_strlen(temp) + 2));
+  s21_memset(result, 0, (s21_strlen(temp) + 2));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
   s21_strcat(result, sign_e ? "+" : "-");
@@ -534,12 +534,12 @@ int process_spec(spec *sp, const char *string, int i) {
 
 int parse(spec *sp, const char *string, va_list *perm) {
   set_default_spec(sp);
-  int i = 1;                              // пропуск %
-  i = process_specifiers(sp, string, i);  // обработка спецификаторов
-  i = process_width(sp, string, i, perm);  // обработка ширины
+  int i = 1;                                  // пропуск %
+  i = process_specifiers(sp, string, i);      // обработка спецификаторов
+  i = process_width(sp, string, i, perm);     // обработка ширины
   i = process_accuracy(sp, string, i, perm);  // обработка точности
-  i = process_spec_size(sp, string, i);  // обработка размера спецификатора
-  i = process_spec(sp, string, i);  // обработка спецификатора
+  i = process_spec_size(sp, string, i);       // обработка размера спецификатора
+  i = process_spec(sp, string, i);            // обработка спецификатора
 
   return i;
 }
@@ -646,23 +646,38 @@ void spec_u(char *buffer, va_list *peremn, spec sp) {
   s21_strcat(buffer, temp2);
 }
 
+int check_INF_NAN(char *buffer, long double temp, spec sp) {
+  int res = 0;
+  if (temp >= INFINITY) {
+    res = 1;
+    s21_strcpy(buffer, (sp.spec == 'G' || sp.spec == 'E') ? "INF" : "inf");
+  } else if (temp <= -INFINITY) {
+    res = 1;
+    s21_strcpy(buffer, (sp.spec == 'G' || sp.spec == 'E') ? "-INF" : "-inf");
+  } else if (isnan(temp)) {
+    res = 1;
+    s21_strcpy(buffer, (sp.spec == 'G' || sp.spec == 'E') ? "NAN" : "nan");
+  }
+  return res;
+}
+
 void spec_g_G(char *buffer, va_list *peremn, spec sp) {
   if (sp.accuracy < 0) sp.accuracy = 6;
-
   long double temp;
   if (sp.spec_size == 'a') {
     temp = va_arg(*peremn, long double);
   } else {
     temp = va_arg(*peremn, double);
   }
-
-  char *temp2;
+  char *temp2 = S21_NULL;
   int e = 0;
-  if (chackE(temp, sp.accuracy, &e)) {
+  if (check_INF_NAN(buffer, temp, sp)) {
+    temp = 0;
+  } else if (chackE(temp, sp.accuracy, &e)) {
     if (sp.accuracy == 0) sp.accuracy = 1;
     temp2 =
         etoa(temp, sp.accuracy - 1, (sp.spec == 'G') ? 1 : 0, 0, sp.hash_spec);
-    
+    s21_strcat(buffer, temp2);
   } else {
     int int_temp_len;
     if (sp.spec_size == 'L') {
@@ -673,8 +688,8 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) {
     if (int_temp_len == 0) int_temp_len = -1 * (e - 1);
     if (temp == 0.0) int_temp_len = 1;
     temp2 = my_gftoa(temp, sp.accuracy - int_temp_len, 0, sp.hash_spec);
+    s21_strcat(buffer, temp2);
   }
-  s21_strcat(buffer, temp2);
   if (temp2) {
     free(temp2);
     temp2 = S21_NULL;
@@ -690,13 +705,16 @@ void spec_e_E(char *buffer, va_list *peremn, spec sp) {
   } else {
     temp = va_arg(*peremn, double);
   }
-
-  char *temp2 =
-      etoa(temp, sp.accuracy, (sp.spec == 'E') ? 1 : 0, 1, sp.hash_spec);
-  if (temp2) {
-    free(temp2);
+  if (check_INF_NAN(buffer, temp, sp)) {
+    temp = 0;
+  } else {
+    char *temp2 =
+        etoa(temp, sp.accuracy, (sp.spec == 'E') ? 1 : 0, 1, sp.hash_spec);
+    s21_strcat(buffer, temp2);
+    if (temp2) {
+      free(temp2);
+    }
   }
-  s21_strcat(buffer, temp2);
 }
 
 void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
