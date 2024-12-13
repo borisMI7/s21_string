@@ -267,7 +267,7 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) { //  Ð¼Ð
   long double fract_part = fabsl(num - integer_part);
   s21_size_t int_len = s21_intlen(integer_part);
   s21_size_t total_len = int_len + prec + 2;
-  char *str = malloc(total_len * sizeof(char));
+  char *str = malloc(total_len * sizeof(char) + 1);
 
   for (int i = 0; i < prec; i++) {
     fract_part *= 10;
@@ -769,6 +769,7 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
   }
 
   // int len_temp = s21_intlen(temp);
+  // char *temp2 = (char *)malloc(len_temp * 2 + 1);
   char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 2) / 3 + 1);
   my_otoa(temp, temp2);
 
