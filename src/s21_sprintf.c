@@ -356,7 +356,7 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) { /
   if(e == 0) sign_e = 1; //   случай если цифр в научной нотации нет, то знак должен быть плюсом
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
-  char *result = malloc((s21_strlen(temp) + 6) * sizeof(char));
+  char *result = malloc((s21_strlen(temp) + 6) * sizeof(char)); //temp + "E+" + "100" + '\0'
   s21_memset(result, 0, (s21_strlen(temp) + 6));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
@@ -741,7 +741,8 @@ void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
   }
 
   int len_temp = s21_intlen(temp);
-  char *temp2 = (char *)malloc(len_temp + 1);
+  // char *temp2 = (char *)malloc(len_temp + 1);
+  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 3) / 4 + 1);
   my_xtoa(temp, temp2, x_or_X);
 
   if (temp == 0) (*sp).is_zero = 1;
