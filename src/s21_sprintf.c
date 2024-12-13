@@ -420,7 +420,7 @@ char *my_otoa(unsigned long num, char *str) {
 
   str[i] = '\0';
   int j, k;
-  for (j = 0, k = s21_strlen(str); j < k; j++, k--) {
+  for (j = 0, k = s21_strlen(str) - 1; j < k; j++, k--) {
     char temp = str[j];
     str[j] = str[k];
     str[k] = temp;
@@ -769,7 +769,7 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
   }
 
   int len_temp = s21_intlen(temp);
-  char *temp2 = (char *)malloc(len_temp * 2 + 1);
+  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 2) / 3 + 1);
   my_otoa(temp, temp2);
 
   if (temp == 0) (*sp).is_zero = 1;
