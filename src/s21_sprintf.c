@@ -420,7 +420,7 @@ char *my_otoa(unsigned long num, char *str) {
 
   str[i] = '\0';
   int j, k;
-  for (j = 0, k = s21_strlen(str) - 1; j < k; j++, k--) {
+  for (j = 0, k = s21_strlen(str); j < k; j++, k--) {
     char temp = str[j];
     str[j] = str[k];
     str[k] = temp;
