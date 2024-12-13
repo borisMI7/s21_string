@@ -658,10 +658,10 @@ void spec_u(char *buffer, va_list *peremn, spec sp) {
 
 int check_INF_NAN(char *buffer, long double temp, spec sp) {
   int res = 0;
-  if (temp >= INFINITY) {
+  if (isinf(temp) > 0) {
     res = 1;
     s21_strcpy(buffer, (sp.spec == 'G' || sp.spec == 'E') ? "INF" : "inf");
-  } else if (temp <= -INFINITY) {
+  } else if (isinf(temp) < 0) {
     res = 1;
     s21_strcpy(buffer, (sp.spec == 'G' || sp.spec == 'E') ? "-INF" : "-inf");
   } else if (isnan(temp)) {
