@@ -768,7 +768,7 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
     temp = va_arg(*peremn, unsigned int);
   }
 
-  int len_temp = s21_intlen(temp);
+  // int len_temp = s21_intlen(temp);
   char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 2) / 3 + 1);
   my_otoa(temp, temp2);
 
