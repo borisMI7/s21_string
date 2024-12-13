@@ -1089,8 +1089,8 @@ END_TEST
 START_TEST(spec_u_9) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %-10.0u", 1234);
-  n2 = s21_sprintf(str2, "here is the number: %-10.0u", 1234);
+  n1 = sprintf(str1, "here is the number: %-10.0u", -1234);
+  n2 = s21_sprintf(str2, "here is the number: %-10.0u", -1234);
   ck_assert_int_eq(n1, n2);
   ck_assert_str_eq(str1, str2);
 }
@@ -1259,8 +1259,8 @@ END_TEST
 START_TEST(spec_gG_13) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %+5.3g %+5.3G", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %+5.3g %+5.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %+5.3g %+5.3LG", 123423421431.431431412, (long double)-121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+5.3g %+5.3LG", 123423421431.431431412, (long double)-121232124554534334.345678908765);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
