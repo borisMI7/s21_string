@@ -356,8 +356,8 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) { /
   if(e == 0) sign_e = 1; //   случай если цифр в научной нотации нет, то знак должен быть плюсом
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
-  char *result = malloc((s21_strlen(temp) + 3) * sizeof(char));
-  s21_memset(result, 0, (s21_strlen(temp) + 3));
+  char *result = malloc((s21_strlen(temp) + 6) * sizeof(char));
+  s21_memset(result, 0, (s21_strlen(temp) + 6));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
   s21_strcat(result, sign_e ? "+" : "-"); 
