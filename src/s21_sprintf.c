@@ -556,7 +556,7 @@ int parse(spec *sp, const char *string, va_list *perm) {
 char *convert_signed_integer(long temp, int *sign) {
   if (temp == LONG_MIN) {
     *sign = 1;
-    char *temp3 = malloc(21);
+    char *temp3 = malloc(21 * sizeof(long double));
     if (temp3 == NULL) {
       return NULL;
     }
@@ -568,7 +568,7 @@ char *convert_signed_integer(long temp, int *sign) {
     temp = -temp;
   }
   int temp_len = s21_intlen(temp);
-  char *temp3 = malloc(temp_len + 1);
+  char *temp3 = malloc((temp_len + 1) * sizeof(long double));
   if (temp3 == S21_NULL) return S21_NULL;
 
   my_itoa(temp, temp3);
@@ -740,8 +740,7 @@ void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
   }
 
   int len_temp = s21_intlen(temp);
-  // char *temp2 = (char *)malloc(len_temp + 1);
-  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 3) / 4 + 1);
+  char *temp2 = (char *)malloc((len_temp + 1) * sizeof(unsigned long));
   my_xtoa(temp, temp2, x_or_X);
 
   if (temp == 0) (*sp).is_zero = 1;
@@ -768,9 +767,8 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
     temp = va_arg(*peremn, unsigned int);
   }
 
-  // int len_temp = s21_intlen(temp);
-  // char *temp2 = (char *)malloc(len_temp * 2 + 1);
-  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 2) / 3 + 1);
+  int len_temp = s21_intlen(temp);
+  char *temp2 = (char *)malloc((len_temp * 2 + 1) * sizeof(unsigned long));
   my_otoa(temp, temp2);
 
   if (temp == 0) (*sp).is_zero = 1;
