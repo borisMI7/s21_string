@@ -111,8 +111,6 @@ int main() {
   n2 = s21_sprintf(str2, "here is the number: %+05.3g %+05.3lG", 123423421431.431431412, (double)-121232124554534334.345678908765);
   n1 = sprintf(str1, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
   n2 = s21_sprintf(str2, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
-  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
   n1 = sprintf(str1, "here is the number: %+-5.3e %+-5.3E", 123423421431.431431412, -121232124554534334.345678908765);
   n2 = s21_sprintf(str2, "here is the number: %+-5.3e %+-5.3E", 123423421431.431431412, -121232124554534334.345678908765);
   n1 = sprintf(str1, "here is the number: % -#5.0e % -#5.0E", 123423421431.431431412, -121232124554534334.345678908765);

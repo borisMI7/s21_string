@@ -384,7 +384,6 @@ int chackE(double num, int prec, int *e) { // исправлена провер�
 
   if (num < 0) num *= -1;
   if (num < 1.0) sign_e = 0;
-
   num = count_e(num, prec - 1, e);
 
   return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4)) ? 1 : 0; // тут добавилось условие, что первый вариант срабатывает только если sign_e == 1
@@ -682,7 +681,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) { // вытащил усл
   char *temp2 = S21_NULL;
   int e = 0;
   if (sp.accuracy == 0) sp.accuracy = 1; // это условие было передвинуто
-  if (check_INF_NAN(buffer, temp, sp)) {
+  if (check_INF_NAN(buffer, (long double)temp, sp) || isinf(temp)) {
     temp = 0;
   } else if (chackE(temp, sp.accuracy, &e)) {
     // отсюда
