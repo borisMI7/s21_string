@@ -384,7 +384,6 @@ int chackE(double num, int prec, int *e) { // исправлена провер�
 
   if (num < 0) num *= -1;
   if (num < 1.0) sign_e = 0;
-
   num = count_e(num, prec - 1, e);
 
   return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4)) ? 1 : 0; // тут добавилось условие, что первый вариант срабатывает только если sign_e == 1
@@ -557,7 +556,7 @@ int parse(spec *sp, const char *string, va_list *perm) {
 char *convert_signed_integer(long temp, int *sign) {
   if (temp == LONG_MIN) {
     *sign = 1;
-    char *temp3 = malloc(21);
+    char *temp3 = malloc(21 * sizeof(long double));
     if (temp3 == NULL) {
       return NULL;
     }
@@ -569,7 +568,7 @@ char *convert_signed_integer(long temp, int *sign) {
     temp = -temp;
   }
   int temp_len = s21_intlen(temp);
-  char *temp3 = malloc(temp_len + 1);
+  char *temp3 = malloc((temp_len + 1) * sizeof(long double));
   if (temp3 == S21_NULL) return S21_NULL;
 
   my_itoa(temp, temp3);
@@ -682,7 +681,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) { // вытащил усл
   char *temp2 = S21_NULL;
   int e = 0;
   if (sp.accuracy == 0) sp.accuracy = 1; // это условие было передвинуто
-  if (check_INF_NAN(buffer, temp, sp)) {
+  if (check_INF_NAN(buffer, (long double)temp, sp) || isinf(temp)) {
     temp = 0;
   } else if (chackE(temp, sp.accuracy, &e)) {
     // отсюда
@@ -741,8 +740,7 @@ void spec_x_X(char *buffer, va_list *peremn, spec *sp, int x_or_X) {
   }
 
   int len_temp = s21_intlen(temp);
-  // char *temp2 = (char *)malloc(len_temp + 1);
-  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 3) / 4 + 1);
+  char *temp2 = (char *)malloc((len_temp + 1) * sizeof(unsigned long));
   my_xtoa(temp, temp2, x_or_X);
 
   if (temp == 0) (*sp).is_zero = 1;
@@ -769,9 +767,8 @@ void spec_o(char *buffer, va_list *peremn, spec *sp) {
     temp = va_arg(*peremn, unsigned int);
   }
 
-  // int len_temp = s21_intlen(temp);
-  // char *temp2 = (char *)malloc(len_temp * 2 + 1);
-  char *temp2 = (char *)malloc((sizeof(unsigned long) * 8 + 2) / 3 + 1);
+  int len_temp = s21_intlen(temp);
+  char *temp2 = (char *)malloc((len_temp * 2 + 1) * sizeof(unsigned long));
   my_otoa(temp, temp2);
 
   if (temp == 0) (*sp).is_zero = 1;
