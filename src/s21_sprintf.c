@@ -47,7 +47,7 @@ typedef struct spec {
 
 void shift_string(char **str, size_t str_len, size_t shift_size,
                   char shift_char) {
-  // printf("\nSTRING BEFORE SHIFT. str: %s'\n", *str);
+  // printf("\nSTRING BEFOR SHIFT. str: '%s'\n", *str);
   for (size_t i = str_len; i > 0; i--) {
     (*str)[i + shift_size - 1] = (*str)[i - 1];
   }
@@ -55,7 +55,7 @@ void shift_string(char **str, size_t str_len, size_t shift_size,
   for (size_t i = 0; i < shift_size; i++) {
     (*str)[i] = shift_char;
   }
-  // printf("\nSTRING AFTER SHIFT. str: %s'\n", *str);
+  // printf("\nSTRING AFTER SHIFT. str: '%s'\n", *str);
 }
 
 void apply_padding(char **result, size_t str_len, size_t padding_size,
@@ -67,7 +67,6 @@ void apply_padding(char **result, size_t str_len, size_t padding_size,
   } else {
     shift_string(result, str_len, padding_size, pad_char);
   }
-  (*result)[str_len + padding_size] = '\0';
 }
 
 int need_hash_sign(spec *sp) {
@@ -79,38 +78,39 @@ int need_sign(spec *sp) {
 }
 
 void handle_numeric_specifiers(spec *sp, char **result, size_t str_len,
-                               size_t result_len, size_t sign_size) {
-  // printf("\nHANDLE NUMERIC BEFORE REALLOC. str_len: %ld, result: '%s'\n\n",
-  // str_len, *result);
+                               size_t *result_len, size_t sign_size) {
+  // printf("\nHANDLE NUMERIC BEFORE REALLOC. str_len: %ld, result: '%s'\n\n", str_len, *result);
   if (need_sign(sp)) {
     char sign = sp->print_plus ? '+' : ' ';
     if (sp->left_allig) {
-      shift_string(result, str_len, 1, sign);
-      if (result_len > str_len + 1) {
-        (*result)[result_len - 1] = '\0';
-      }
+      shift_string(result, *result_len, 1, sign);
+      // printf("\nAFTER SHIFT STRING LEFT ALIGN: '%s'\n", *result);
     } else if (sp->field_zero) {
-      shift_string(result, str_len, 1, sign);
+      (*result)[0] = sign;
+      // printf("\nAFTER FILL ZEROES: '%s'\n", *result);
     } else {
-      (*result)[result_len - str_len - 1] = sign;
+      // printf("\nWITHOUT SHIFT: '%s'\n", *result);
+      (*result)[*result_len - str_len-1] = sign;
     }
   } else if (need_hash_sign(sp)) {
     if (sp->left_allig) {
-      shift_string(result, str_len, sign_size, 0);
-      (*result)[result_len - 1] = '\0';
+      // printf("\nNEED HASH LEFT ALIGN\n");
+      shift_string(result, *result_len, sign_size, '0');
       if (sign_size == 2) {
         (*result)[1] = sp->spec;
       }
     } else {
-      (*result)[result_len - str_len - sign_size] = 0;
+      // printf("\nNEED HASH WITHOUT LEFT ALIGN\n");
+      (*result)[*result_len - str_len - sign_size] = '0';
       if (sign_size == 2) {
-        (*result)[result_len - str_len - 1] = sp->spec;
+        (*result)[*result_len - str_len - 1] = sp->spec;
       }
     }
   }
 }
 
 char *format_string(spec *sp, char *buff) {
+  // printf("\n INIT STRING: '%s'\n", buff);
   // print_spec(sp);
   if (sp == S21_NULL || buff == S21_NULL) {
     return S21_NULL;
@@ -120,36 +120,32 @@ char *format_string(spec *sp, char *buff) {
   size_t padding_size = sp->width > str_len ? sp->width - str_len : 0;
 
   size_t sign_size = 0;
-  if ((need_sign(sp) && (buff)[0] != '-') || need_hash_sign(sp) ||
-      sp->field_zero) {
+  if ((need_sign(sp) && (buff)[0] != '-') || need_hash_sign(sp)) {
     if (need_sign(sp) || sp->spec == 'o') {
       sign_size = 1;
     } else if (need_hash_sign(sp)) {
       sign_size = 2;
     }
-
-    if (!sp->left_allig && padding_size >= sign_size) padding_size -= sign_size;
+    if (padding_size >= sign_size) padding_size -= sign_size;
+    // printf("\nNEED SIGN: result padding_size: %ld, sign_size: %ld", padding_size, sign_size);
   }
 
   size_t result_size = str_len + padding_size + sign_size;
 
-  // printf("\nFORMAT STRING. str_len: %ld, padding_size: %ld, sign_size: %ld,
-  // result_size: %ld\n", str_len, padding_size, sign_size, result_size);
+  // printf("\nFORMAT STRING. str_len: %ld, padding_size: %ld, sign_size: %ld, result_size: %ld\n", str_len, padding_size, sign_size, result_size);
   char *result = calloc(result_size + 1, sizeof(char));
   if (result != S21_NULL) {
     s21_strcpy(result, buff);
-
+ 
     char pad_char = (sp->field_zero && !sp->left_allig) ? '0' : ' ';
-    apply_padding(&result, str_len, padding_size + sign_size, pad_char,
+    apply_padding(&result, str_len, sign_size + padding_size, pad_char,
                   sp->left_allig);
-    // printf("\nAFTER APPLY PADDING. curr_len: %ld, result: '%s'\n", str_len,
-    // result);
+    // printf("\nAFTER APPLY PADDING. curr_len: %ld, result: '%s'\n", str_len, result);
 
     if (sign_size != 0) {
-      handle_numeric_specifiers(sp, &result, str_len, result_size, sign_size);
+      handle_numeric_specifiers(sp, &result, str_len, &result_size, sign_size);
     }
-    // printf("\nAFTER HANDLE NUMERIC. curr_len: %ld, result: '%s'\n", str_len,
-    // result);
+    // printf("\nAFTER HANDLE NUMERIC. curr_len: %ld, result: '%s'\n", str_len, result);
 
     result[result_size] = '\0';
   }

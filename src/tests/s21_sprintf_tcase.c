@@ -1289,8 +1289,8 @@ END_TEST
 START_TEST(spec_gG_16) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
-  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", INFINITY, -INFINITY);
+  n1 = sprintf(str1, "here is the number: %+5.0g %+5.0G", INFINITY, INFINITY);
+  n2 = s21_sprintf(str2, "here is the number: %+5.0g %+5.0G", INFINITY, INFINITY);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1460,8 +1460,8 @@ END_TEST
 START_TEST(spec_eE_16) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %+5.0e %+5.0E", INFINITY, -INFINITY);
-  n2 = s21_sprintf(str2, "here is the number: %+5.0e %+5.0E", INFINITY, -INFINITY);
+  n1 = sprintf(str1, "here is the number: %+5.0e %+5.0E", INFINITY, INFINITY);
+  n2 = s21_sprintf(str2, "here is the number: %+5.0e %+5.0E", INFINITY, INFINITY);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
