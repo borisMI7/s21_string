@@ -121,8 +121,8 @@ START_TEST(sspec_sd_2) {
   char str[] = "aboba 24.5";
   char s1[200] = {0}, s2[200] = {0};
   int d1 = 0, d2 = 0;
-  n1 = sscanf(str, "%*s %d", &d1);
-  n2 = s21_sscanf(str, "%*s %d", &d2);
+  sscanf(str, "%*s %d", &d1);
+  s21_sscanf(str, "%*s %d", &d2);
   ck_assert_str_eq(s1, s2);
   ck_assert_int_eq(d1, d2);
 }
