@@ -98,7 +98,7 @@ char *format_string(spec *sp, char *buff) {
     if (padding_size >= sign_size) padding_size -= sign_size;
   }
   size_t result_size = str_len + padding_size + sign_size;
-  char *result = calloc(result_size + 1, sizeof(char));
+  char *result = calloc(result_size + 2, sizeof(char));
   if (result != S21_NULL) {
     s21_strcpy(result, buff);
     char pad_char = (sp->field_zero && !sp->left_allig) ? '0' : ' ';
