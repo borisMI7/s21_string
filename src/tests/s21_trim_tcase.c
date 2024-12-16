@@ -27,7 +27,7 @@ START_TEST(s21_trim_test_number_3) {
 END_TEST
 
 START_TEST(s21_trim_test_number_4) {
-  char str[100] = "";
+  char str[100] = {0};
   char *ptr = s21_trim(str, " ()90180");
   ck_assert_str_eq("", ptr);
   if (ptr) free(ptr);

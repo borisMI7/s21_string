@@ -301,7 +301,8 @@ int sspec_d(char const *str, va_list *peremn, sspec *sp, int *j) {
 
 int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
   s21_size_t length = s21_strlen(str + (*j));
-  char *temp = malloc((length + 1) * sizeof(char));
+  char *temp;
+  if (str) temp = malloc((length + 1) * sizeof(char));
   if (str == S21_NULL) temp = S21_NULL;
   int in = 0, flag = 1;
   if (temp != S21_NULL) {
@@ -318,8 +319,8 @@ int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
       char *temp2 = va_arg(*peremn, char *);
       s21_strcat(temp2, temp);
     }
-    free(temp);
   }
+  if (temp) free(temp);
   return in == 1 ? 0 : 1;
 }
 

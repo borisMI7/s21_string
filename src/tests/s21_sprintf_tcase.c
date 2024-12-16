@@ -4,7 +4,7 @@
 #include "suite_test_runner.h"
 
 START_TEST(returning_value_tests) {
-  char str1[1000], str2[1000];
+  char str1[1000] = {0}, str2[1000] = {0};
   int n1 = s21_sprintf(str1, "aboba is equal to %d", 20),
       n2 = sprintf(str2, "aboba is equal to %d", 20);
   ck_assert_int_eq(n1, n2);

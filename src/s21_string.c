@@ -641,11 +641,13 @@ void *s21_trim(const char *src, const char *trim_chars) {
   s21_size_t src_len = s21_strlen(src);
 
   s21_size_t start = 0;
+  if (*src != '\0')
   while (start < src_len && is_trim_symbol(trim_chars, src[start])) {
     start++;
   }
 
   s21_size_t end = src_len - 1;
+  if (*src != '\0')
   while (end > start && is_trim_symbol(trim_chars, src[end])) {
     end--;
   }
@@ -657,13 +659,13 @@ void *s21_trim(const char *src, const char *trim_chars) {
     s21_memcpy(result, src + start, result_len);
     result[result_len] = '\0';
   }
-
+  if (*src == '\0') *result = '\0';
   return result;
 }
 
 int is_trim_symbol(const char *trim_chars, char symbol) {
   int result = 0;
-  while (*trim_chars != '\0') {
+  while (symbol != '\0' && *trim_chars != '\0' && !result) {
     if (symbol == *trim_chars) {
       result = 1;
     }
