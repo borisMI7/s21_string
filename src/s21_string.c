@@ -47,8 +47,7 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
 
 // 4
 void *s21_memset(void *str, int c, s21_size_t n) {
-  if (str == S21_NULL || n < 1)
-    return str;
+  if (str == S21_NULL || n < 1) return str;
   char *p = (char *)str;
   while (n > 0) {
     *(p++) = c;
@@ -58,8 +57,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 // 5
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
-  if (dest == S21_NULL || src == S21_NULL)
-    return dest;
+  if (dest == S21_NULL || src == S21_NULL) return dest;
   s21_size_t i = 0;
   for (i = 0; dest[i] != '\0'; i++) {
   }
@@ -72,8 +70,7 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 
 // 6
 char *s21_strchr(const char *str, int c) {
-  if (str == S21_NULL)
-    return S21_NULL;
+  if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
   s21_size_t index = 0;
   for (; symbol_found == 0 && str[index]; index++)
@@ -81,8 +78,7 @@ char *s21_strchr(const char *str, int c) {
       symbol_found = 1;
       index--;
     }
-  if (c == 0)
-    symbol_found = 1;
+  if (c == 0) symbol_found = 1;
   return symbol_found ? (char *)str + index : S21_NULL;
 }
 
@@ -109,8 +105,7 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
 // 8
 
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
-  if (src == S21_NULL || dest == S21_NULL)
-    return dest;
+  if (src == S21_NULL || dest == S21_NULL) return dest;
   s21_size_t i = 0;
   for (i = 0; i < n && src[i] != '\0'; i++) {
     dest[i] = src[i];
@@ -282,8 +277,7 @@ void s21_strcpy(char *dest, const char *src) {
 void s21_strcat(char *dest, const char *src) {
   if (dest != S21_NULL && src != S21_NULL) {
     char *p = dest;
-    while (*p)
-      p++;
+    while (*p) p++;
     while ((*p++ = *src++))
       ;
   }
@@ -335,8 +329,7 @@ char *s21_strerror(int errnum) {
 
 // 11
 s21_size_t s21_strlen(const char *str) {
-  if (str == S21_NULL)
-    return 0;
+  if (str == S21_NULL) return 0;
   s21_size_t len = 0;
   for (; str[len]; len++)
     ;
@@ -365,8 +358,7 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 
 // 13
 char *s21_strrchr(const char *str, int c) {
-  if (str == S21_NULL)
-    return S21_NULL;
+  if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
   s21_size_t index = 0;
   s21_size_t length = 0;
@@ -384,12 +376,10 @@ char *s21_strrchr(const char *str, int c) {
 
 // 14
 char *s21_strstr(const char *haystack, const char *needle) {
-  if (haystack == S21_NULL || needle == S21_NULL)
-    return S21_NULL;
+  if (haystack == S21_NULL || needle == S21_NULL) return S21_NULL;
   s21_size_t index_for_str1 = 0, index_for_str2 = 0, answer_index = 0;
   int start_symbol_found = 0, str_found = 0;
-  if (needle[0] == '\0')
-    str_found = 1;
+  if (needle[0] == '\0') str_found = 1;
   while (haystack[index_for_str1] != '\0' && str_found != 1) {
     if (haystack[index_for_str1] == needle[index_for_str2]) {
       ++index_for_str2;
@@ -398,8 +388,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
         start_symbol_found = 1;
       }
     } else {
-      if (start_symbol_found != 0)
-        index_for_str1--;
+      if (start_symbol_found != 0) index_for_str1--;
       start_symbol_found = 0;
       index_for_str2 = 0;
     }
@@ -441,8 +430,7 @@ char *s21_strtok(char *str, const char *delim) {
       }
     }
   }
-  if (e)
-    result = S21_NULL;
+  if (e) result = S21_NULL;
   return result;
 }
 

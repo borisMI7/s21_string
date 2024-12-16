@@ -1,16 +1,12 @@
 
 #include "s21_string.h"
 
-/*typedef long double s21_ldouble;
-typedef unsigned int s21_uint;
-typedef long int s21_lint;
-typedef short int s21_sint;*/
 
 typedef struct sspec {
-  size_t width;   // ширина вывода
-  int less;       //  пропестить значение
-  char spec;      // какой спецификатор
-  char spec_size; // длина спецификатора 
+  size_t width;
+  int less;
+  char spec;
+  char spec_size;
 } sspec;
 
 void sset_default_spec(sspec *sp) {
@@ -23,7 +19,7 @@ void sset_default_spec(sspec *sp) {
 int sprocess_width(sspec *sp, const char *string, int i) {
   if (string[i] == '*') {
     sp->less = 1;
-    i++; //!
+    i++;  //!
   }
   while (string[i] >= '0' && string[i] <= '9') {
     sp->width = sp->width * 10 + (string[i] - '0');
@@ -60,11 +56,10 @@ int sprocess_spec(sspec *sp, const char *string, int i) {
 
 int sparse(sspec *sp, const char *string) {
   sset_default_spec(sp);
-  int i = 1; // пропуск %
-
-  i = sprocess_width(sp, string, i); // обработка ширины
-  i = sprocess_spec_size(sp, string, i); // обработка размера спецификатора
-  i = sprocess_spec(sp, string, i); // обработка спецификатора
+  int i = 1;
+  i = sprocess_width(sp, string, i);
+  i = sprocess_spec_size(sp, string, i);
+  i = sprocess_spec(sp, string, i);
 
   return i;
 }
@@ -103,65 +98,19 @@ int my_atoi(const char *str, int *j, int width, int *error) {
   return result * sign;
 }
 
-double my_atof(char const *str, int *j, int width, int *error) {
-  double result = 0.0;
-  int sign = 1;
-  int i = *j;
-  int in = 0;
-  if (str != S21_NULL) {
-    while (str[i] == ' ') {
-      i++;
-      (*j)++;
-    }
-    if (str[i] == '-') {
-      sign = -1;
-      i++;
-    } else if (str[i] == '+') {
-      i++;
-    }
 
-    double integer_part = 0;
-    while (str[i] >= '0' && str[i] <= '9' && (i - *j < width || width == 0)) {
-      integer_part = integer_part * 10 + (str[i] - '0');
-      i++;
-      in = 1;
-    }
-
-    double fract_part = 0;
-    double fract_divisor = 1.0;
-    if (str[i] == '.') {
-      i++;
-      while (str[i] >= '0' && str[i] <= '9' && (i - *j < width || width == 0)) {
-        fract_part = fract_part * 10 + (str[i] - '0');
-        fract_divisor *= 10.0;
-        i++;
-        in = 1;
-      }
-    }
-
-    result = sign * (integer_part + fract_part / fract_divisor);
-    *(j) = i;
-  }
-
-  if (in == 0)
-    *error = 1;
-
-  return result;
-}
-
-double my_pow10(int n) {
-  if (n == 0)
-    return 1;
-  double result = 1.0;
+long double my_pow10(int n) {
+  if (n == 0) return 1;
+  long double result = 1.0;
   for (int i = 0; i < abs(n); i++) {
     result *= 10.0;
   }
   return (n < 0) ? (1.0 / result) : result;
 }
 
-double my_atoe(char const *str, int *j, int width, int *error) {
+long double smy_atoe(char const *str, int *j, int width, int *error) {
   int i = *j, in = 0;
-  double mantissa = 0.0;
+  long double mantissa = 0.0;
   int decimal_pos = -1, sign = 1, exponent = 0, exp_sign = 1;
 
   if (str != S21_NULL) {
@@ -182,14 +131,12 @@ double my_atoe(char const *str, int *j, int width, int *error) {
         decimal_pos = 0;
       } else {
         mantissa = mantissa * 10 + (str[i] - '0');
-        if (decimal_pos >= 0)
-          decimal_pos++;
+        if (decimal_pos >= 0) decimal_pos++;
       }
       i++;
       in = 1;
     }
-    if (decimal_pos > 0)
-      mantissa /= my_pow10(decimal_pos);
+    if (decimal_pos > 0) mantissa /= my_pow10(decimal_pos);
 
     if (str[i] == 'e' || str[i] == 'E') {
       i++;
@@ -207,16 +154,15 @@ double my_atoe(char const *str, int *j, int width, int *error) {
     *j = i;
   }
 
-  if (!in)
-    *error = 1;
+  if (!in) *error = 1;
 
-  return sign * mantissa * my_pow10(exponent * exp_sign);
+  return (long double)(sign * mantissa * my_pow10(exponent * exp_sign));
 }
 
 long long my_atox(char const *str, int *j, int width, int *error) {
   int in = 0;
   long long result = 0;
-  if (str != NULL) {
+  if (str != S21_NULL) {
     long long power = 1;
     int i = *j;
     while (((str[i] >= '0' && str[i] <= '9') ||
@@ -244,8 +190,7 @@ long long my_atox(char const *str, int *j, int width, int *error) {
     }
     *j = temp;
   }
-  if (!in)
-    *error = 1;
+  if (!in) *error = 1;
 
   return result;
 }
@@ -253,7 +198,7 @@ long long my_atox(char const *str, int *j, int width, int *error) {
 long long my_atoo(char const *str, int *j, int width, int *error) {
   int in = 0;
   long long result = 0;
-  if (str != NULL) {
+  if (str != S21_NULL) {
     long long power = 1;
     int i = *j, temp = 0;
     while (str[i] >= '0' && str[i] <= '7' && (i - *j < width || width == 0))
@@ -270,8 +215,7 @@ long long my_atoo(char const *str, int *j, int width, int *error) {
     *j = temp;
   }
 
-  if (!in)
-    *error = 0;
+  if (!in) *error = 0;
 
   return result;
 }
@@ -300,8 +244,8 @@ unsigned int my_atoui(const char *str, int *j, int width, int *error) {
 }
 
 void *my_atop(const char *str, int *j, int width, int *error) {
-  void *result = NULL;
-  int i = *j;
+  void *result = S21_NULL;
+  int i = *j, flag = 1;
   int in = 0;
   while (str[i] == ' ') {
     i++;
@@ -311,8 +255,8 @@ void *my_atop(const char *str, int *j, int width, int *error) {
     i += 2;
   }
   unsigned long long address = 0;
-  while ((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'f') ||
-         (str[i] >= 'A' && str[i] <= 'F')) {
+  while (((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'f') ||
+         (str[i] >= 'A' && str[i] <= 'F')) && flag) {
     address = address * 16;
     if (str[i] >= '0' && str[i] <= '9') {
       address += str[i] - '0';
@@ -323,8 +267,7 @@ void *my_atop(const char *str, int *j, int width, int *error) {
     }
     i++;
     in = 1;
-    if (width != 0 && (i - *j) >= width)
-      break;
+    if (width != 0 && (i - *j) >= width) flag = 0;
   }
   *j = i;
   if (in == 0) {
@@ -356,33 +299,20 @@ int sspec_d(char const *str, va_list *peremn, sspec *sp, int *j) {
   return error;
 }
 
-int sspec_f(char const *str, va_list *peremn, sspec *sp, int *j) {
-  int error = 0;
-  long double temp = 0;
-  temp = my_atof(str, j, sp->width, &error);
-  if (!sp->less && error == 0) {
-    double *temp2 = NULL;
-    temp2 = va_arg(*peremn, double *);
-    *temp2 = temp;
-  }
-  return error;
-}
 
 int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
   s21_size_t length = s21_strlen(str + (*j));
   char *temp = malloc(length * sizeof(char));
-  if (str == NULL)
-    temp = NULL;
+  if (str == S21_NULL) temp = S21_NULL;
   int in = 0, flag = 1;
-  if (temp != NULL) {
+  if (temp != S21_NULL) {
     s21_size_t i = 0;
     while (flag) {
       temp[i++] = str[(*j)++];
       if (str[*j] == ' ' || str[*j] == '\0' ||
           (i >= sp->width && sp->width != 0))
         flag = 0;
-      if (flag)
-        in = 1;
+      if (flag) in = 1;
     }
     temp[i] = '\0';
     if (!sp->less) {
@@ -397,11 +327,14 @@ int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
 int sspec_e_E(char const *str, va_list *peremn, sspec *sp, int *j) {
   int error = 0;
   long double temp = 0;
-  temp = my_atoe(str, j, sp->width, &error);
+  temp = smy_atoe(str, j, sp->width, &error);
   if (!sp->less && error == 0) {
     if (sp->spec_size == 'L') {
       long double *temp2 = va_arg(*peremn, long double *);
       *temp2 = temp;
+    } else if (sp->spec_size == 'l') {
+      double *temp2 = va_arg(*peremn, double *);
+      *temp2 = (double)temp;
     } else {
       float *temp2 = va_arg(*peremn, float *);
       *temp2 = (float)temp;
@@ -473,7 +406,7 @@ int sspec_u(char const *str, va_list *peremn, sspec *sp, int *j) {
 
 int sspec_p(char const *str, va_list *peremn, sspec *sp, int *j) {
   int error = 0;
-  void *temp = NULL;
+  void *temp = S21_NULL;
   temp = my_atop(str, j, sp->width, &error);
   if (!sp->less && error == 0) {
     void **temp2 = va_arg(*peremn, void **);
@@ -492,9 +425,7 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
   } else if (sp->spec == 'd') {
     error = sspec_d(str, peremn, sp, j);
   } else if (sp->spec == 'f') {
-    error = sspec_f(str, peremn, sp, j); // надо исправить
-    // error = sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это
-    // корректно
+    error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 's') {
     error = sspec_s(str, peremn, sp, j);
   } else if (sp->spec == 'u') {
@@ -503,9 +434,11 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
     char *temp = va_arg(*peremn, char *);
     *temp = '%';
   } else if (sp->spec == 'g') {
-    error = sspec_e_E(str, peremn, sp, j); // Проверить на сколько это корректно
+    error =
+        sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'G') {
-    error = sspec_e_E(str, peremn, sp, j); // Проверить на сколько это корректно
+    error =
+        sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'e') {
     error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'E') {
@@ -533,11 +466,9 @@ int s21_sscanf(const char *str, const char *format, ...) {
   sspec sp;
   for (s21_size_t i = 0; i < length && error == 0; i++) {
     if (format[i] != '%') {
-      if (format[i] != str[j++])
-        error = 1;
+      if (format[i] != str[j++]) error = 1;
     } else {
       i += sparse(&sp, &format[i]);
-
       error = scheck_spec(&sp, &peremn, str, &j);
       if (error == 0) {
         read_count++;
