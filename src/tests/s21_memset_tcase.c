@@ -16,8 +16,8 @@ END_TEST
 
 START_TEST(s21_memset_test_number_2) {
   char str1[10] = "Aboba", str2[10] = "Aboba";
-  ck_assert_str_eq((char*)memset(str1, 'a', 6),
-                   (char*)s21_memset(str2, 'a', 6));
+  ck_assert_str_eq((char *)memset(str1, 'a', 6),
+                   (char *)s21_memset(str2, 'a', 6));
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
@@ -63,8 +63,8 @@ START_TEST(s21_memset_test_number_9) {
 }
 END_TEST
 
-TCase* s21_memset_create_tcase(void) {
-  TCase* temp_case = tcase_create("S21_MEMSET_TESTING:\n");
+TCase *s21_memset_create_tcase(void) {
+  TCase *temp_case = tcase_create("S21_MEMSET_TESTING:\n");
   tcase_add_test(temp_case, s21_memset_test_number_1);
   tcase_add_test(temp_case, s21_memset_test_number_2);
   tcase_add_test(temp_case, s21_memset_test_number_3);

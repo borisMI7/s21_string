@@ -7,10 +7,10 @@ typedef long int s21_lint;
 typedef short int s21_sint;*/
 
 typedef struct sspec {
-  size_t width;    // ширина вывода
-  int less;        //  пропестить значение
-  char spec;       // какой спецификатор
-  char spec_size;  // длина спецификатора 
+  size_t width;   // ширина вывода
+  int less;       //  пропестить значение
+  char spec;      // какой спецификатор
+  char spec_size; // длина спецификатора 
 } sspec;
 
 void sset_default_spec(sspec *sp) {
@@ -23,7 +23,7 @@ void sset_default_spec(sspec *sp) {
 int sprocess_width(sspec *sp, const char *string, int i) {
   if (string[i] == '*') {
     sp->less = 1;
-    i++;  //!
+    i++; //!
   }
   while (string[i] >= '0' && string[i] <= '9') {
     sp->width = sp->width * 10 + (string[i] - '0');
@@ -60,11 +60,11 @@ int sprocess_spec(sspec *sp, const char *string, int i) {
 
 int sparse(sspec *sp, const char *string) {
   sset_default_spec(sp);
-  int i = 1;  // пропуск %
+  int i = 1; // пропуск %
 
-  i = sprocess_width(sp, string, i);      // обработка ширины
-  i = sprocess_spec_size(sp, string, i);  // обработка размера спецификатора
-  i = sprocess_spec(sp, string, i);       // обработка спецификатора
+  i = sprocess_width(sp, string, i); // обработка ширины
+  i = sprocess_spec_size(sp, string, i); // обработка размера спецификатора
+  i = sprocess_spec(sp, string, i); // обработка спецификатора
 
   return i;
 }
@@ -143,13 +143,15 @@ double my_atof(char const *str, int *j, int width, int *error) {
     *(j) = i;
   }
 
-  if (in == 0) *error = 1;
+  if (in == 0)
+    *error = 1;
 
   return result;
 }
 
 double my_pow10(int n) {
-  if (n == 0) return 1;
+  if (n == 0)
+    return 1;
   double result = 1.0;
   for (int i = 0; i < abs(n); i++) {
     result *= 10.0;
@@ -180,12 +182,14 @@ double my_atoe(char const *str, int *j, int width, int *error) {
         decimal_pos = 0;
       } else {
         mantissa = mantissa * 10 + (str[i] - '0');
-        if (decimal_pos >= 0) decimal_pos++;
+        if (decimal_pos >= 0)
+          decimal_pos++;
       }
       i++;
       in = 1;
     }
-    if (decimal_pos > 0) mantissa /= my_pow10(decimal_pos);
+    if (decimal_pos > 0)
+      mantissa /= my_pow10(decimal_pos);
 
     if (str[i] == 'e' || str[i] == 'E') {
       i++;
@@ -203,7 +207,8 @@ double my_atoe(char const *str, int *j, int width, int *error) {
     *j = i;
   }
 
-  if (!in) *error = 1;
+  if (!in)
+    *error = 1;
 
   return sign * mantissa * my_pow10(exponent * exp_sign);
 }
@@ -239,7 +244,8 @@ long long my_atox(char const *str, int *j, int width, int *error) {
     }
     *j = temp;
   }
-  if (!in) *error = 1;
+  if (!in)
+    *error = 1;
 
   return result;
 }
@@ -264,7 +270,8 @@ long long my_atoo(char const *str, int *j, int width, int *error) {
     *j = temp;
   }
 
-  if (!in) *error = 0;
+  if (!in)
+    *error = 0;
 
   return result;
 }
@@ -316,7 +323,8 @@ void *my_atop(const char *str, int *j, int width, int *error) {
     }
     i++;
     in = 1;
-    if (width != 0 && (i - *j) >= width) break;
+    if (width != 0 && (i - *j) >= width)
+      break;
   }
   *j = i;
   if (in == 0) {
@@ -363,7 +371,8 @@ int sspec_f(char const *str, va_list *peremn, sspec *sp, int *j) {
 int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
   s21_size_t length = s21_strlen(str + (*j));
   char *temp = malloc(length * sizeof(char));
-  if (str == NULL) temp = NULL;
+  if (str == NULL)
+    temp = NULL;
   int in = 0, flag = 1;
   if (temp != NULL) {
     s21_size_t i = 0;
@@ -372,7 +381,8 @@ int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
       if (str[*j] == ' ' || str[*j] == '\0' ||
           (i >= sp->width && sp->width != 0))
         flag = 0;
-      if (flag) in = 1;
+      if (flag)
+        in = 1;
     }
     temp[i] = '\0';
     if (!sp->less) {
@@ -482,7 +492,7 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
   } else if (sp->spec == 'd') {
     error = sspec_d(str, peremn, sp, j);
   } else if (sp->spec == 'f') {
-    error = sspec_f(str, peremn, sp, j);  // надо исправить
+    error = sspec_f(str, peremn, sp, j); // надо исправить
     // error = sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это
     // корректно
   } else if (sp->spec == 's') {
@@ -493,11 +503,9 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
     char *temp = va_arg(*peremn, char *);
     *temp = '%';
   } else if (sp->spec == 'g') {
-    error =
-        sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это корректно
+    error = sspec_e_E(str, peremn, sp, j); // Проверить на сколько это корректно
   } else if (sp->spec == 'G') {
-    error =
-        sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это корректно
+    error = sspec_e_E(str, peremn, sp, j); // Проверить на сколько это корректно
   } else if (sp->spec == 'e') {
     error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'E') {
@@ -525,7 +533,8 @@ int s21_sscanf(const char *str, const char *format, ...) {
   sspec sp;
   for (s21_size_t i = 0; i < length && error == 0; i++) {
     if (format[i] != '%') {
-      if (format[i] != str[j++]) error = 1;
+      if (format[i] != str[j++])
+        error = 1;
     } else {
       i += sparse(&sp, &format[i]);
 
