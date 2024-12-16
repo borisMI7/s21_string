@@ -29,12 +29,12 @@ clean:
 suite_test_runner.o: tests/suite_test_runner.c tests/suite_test_runner.h
 	$(CC) $(FLAGS) -c tests/suite_test_runner.c
 
-test: clean s21_string.a
+test: s21_string.a
 	$(CC) $(FLAGS) tests/suite_test_runner.c -L. s21_string.a $(LFLAGS) -o testing.out
 	./testing.out
 
 gcov_report: FLAGS += -coverage
-gcov_report: test
+gcov_report: clean test
 	gcov s21_sprintf.c s21_string.c s21_sscanf.c
 	geninfo . -b . -o ./ALL_FUNCTIONS_COVERAGE.info
 	genhtml ALL_FUNCTIONS_COVERAGE.info -o report
