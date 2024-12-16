@@ -1,6 +1,5 @@
 #include "s21_string.h"
 
-// FUNCTION NUMBER 1
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   char *p = (char *)str;
   void *res = S21_NULL;
@@ -14,7 +13,6 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
   return res;
 }
 
-// FUNCTION NUMBER 2
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   char *p1 = (char *)str1, *p2 = (char *)str2;
   int res = 0;
@@ -35,7 +33,6 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   return res;
 }
 
-// 3
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   char *p1 = (char *)dest, *p2 = (char *)src;
   while (p1 != S21_NULL && p2 != S21_NULL && n > 0) {
@@ -45,7 +42,6 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   return dest;
 }
 
-// 4
 void *s21_memset(void *str, int c, s21_size_t n) {
   if (str == S21_NULL || n < 1) return str;
   char *p = (char *)str;
@@ -55,7 +51,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
   }
   return str;
 }
-// 5
+
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   if (dest == S21_NULL || src == S21_NULL) return dest;
   s21_size_t i = 0;
@@ -68,7 +64,6 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   return dest;
 }
 
-// 6
 char *s21_strchr(const char *str, int c) {
   if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
@@ -82,7 +77,6 @@ char *s21_strchr(const char *str, int c) {
   return symbol_found ? (char *)str + index : S21_NULL;
 }
 
-// 7
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   s21_size_t i = 0;
   int result = 0;
@@ -102,8 +96,6 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   return result;
 }
 
-// 8
-
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   if (src == S21_NULL || dest == S21_NULL) return dest;
   s21_size_t i = 0;
@@ -117,7 +109,7 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
 
   return dest;
 }
-// 9
+
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
   if (str1 == S21_NULL)
     return 0;
@@ -434,7 +426,7 @@ char *s21_itoa(int num, char *str) {
   }
   return str;
 }
-// 10
+
 char *s21_strerror(int errnum) {
   static char result[512] = {'\0'};
   char *errorList[] = ERRORLIST;
@@ -450,7 +442,6 @@ char *s21_strerror(int errnum) {
   return result;
 }
 
-// 11
 s21_size_t s21_strlen(const char *str) {
   if (str == S21_NULL) return 0;
   s21_size_t len = 0;
@@ -458,7 +449,6 @@ s21_size_t s21_strlen(const char *str) {
   return len;
 }
 
-// 12
 char *s21_strpbrk(const char *str1, const char *str2) {
   if (str1 == S21_NULL || str2 == S21_NULL || *str2 == '\0') {
     return S21_NULL;
@@ -478,7 +468,6 @@ char *s21_strpbrk(const char *str1, const char *str2) {
   return result;
 }
 
-// 13
 char *s21_strrchr(const char *str, int c) {
   if (str == S21_NULL) return S21_NULL;
   int symbol_found = 0;
@@ -496,7 +485,6 @@ char *s21_strrchr(const char *str, int c) {
   return symbol_found ? (char *)str + index : S21_NULL;
 }
 
-// 14
 char *s21_strstr(const char *haystack, const char *needle) {
   if (haystack == S21_NULL || needle == S21_NULL) return S21_NULL;
   s21_size_t index_for_str1 = 0, index_for_str2 = 0, answer_index = 0;
@@ -522,7 +510,6 @@ char *s21_strstr(const char *haystack, const char *needle) {
   return str_found ? (char *)haystack + answer_index : S21_NULL;
 }
 
-// 15
 char *s21_strtok(char *str, const char *delim) {
   static char *next = S21_NULL;
   if ((next == S21_NULL && str == S21_NULL) || delim == S21_NULL)
@@ -556,7 +543,6 @@ char *s21_strtok(char *str, const char *delim) {
   return result;
 }
 
-// 16
 void *s21_to_upper(const char *str) {
   if (str == S21_NULL) {
     return S21_NULL;
@@ -581,7 +567,6 @@ void *s21_to_upper(const char *str) {
   return result;
 }
 
-// 17
 void *s21_to_lower(const char *str) {
   if (str == S21_NULL) {
     return S21_NULL;
@@ -606,7 +591,6 @@ void *s21_to_lower(const char *str) {
   return result;
 }
 
-// 18
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   if (src == S21_NULL || str == S21_NULL) {
     return S21_NULL;
@@ -628,7 +612,6 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   return new_str;
 }
 
-// 19
 void *s21_trim(const char *src, const char *trim_chars) {
   if (src == S21_NULL) {
     return S21_NULL;
@@ -642,15 +625,15 @@ void *s21_trim(const char *src, const char *trim_chars) {
 
   s21_size_t start = 0;
   if (*src != '\0')
-  while (start < src_len && is_trim_symbol(trim_chars, src[start])) {
-    start++;
-  }
+    while (start < src_len && is_trim_symbol(trim_chars, src[start])) {
+      start++;
+    }
 
   s21_size_t end = src_len - 1;
   if (*src != '\0')
-  while (end > start && is_trim_symbol(trim_chars, src[end])) {
-    end--;
-  }
+    while (end > start && is_trim_symbol(trim_chars, src[end])) {
+      end--;
+    }
 
   s21_size_t result_len = end - start + 1;
 

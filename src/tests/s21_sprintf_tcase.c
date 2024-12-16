@@ -1217,7 +1217,6 @@ START_TEST(spec_gG_16) {
 }
 END_TEST
 
-// Если добавить +, то ФЕЙЛ
 START_TEST(spec_gG_17) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
@@ -1430,7 +1429,6 @@ START_TEST(spec_eE_17) {
 }
 END_TEST
 
-// Если добавить +, то ФЕЙЛ
 START_TEST(spec_eE_21) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
@@ -1760,7 +1758,6 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_d_9);
   tcase_add_test(temp_case, spec_d_10);
   tcase_add_test(temp_case, spec_d_11);
-  // tcase_add_test(temp_case, spec_d_12);
   tcase_add_test(temp_case, spec_d_13);
   tcase_add_test(temp_case, spec_d_14);
   tcase_add_test(temp_case, spec_d_15);
@@ -1815,8 +1812,6 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_f_31);
   tcase_add_test(temp_case, spec_s_1);
   tcase_add_test(temp_case, spec_s_2);
-  // tcase_add_test(temp_case, spec_s_3);
-  // tcase_add_test(temp_case, spec_s_4);
   tcase_add_test(temp_case, spec_s_5);
   tcase_add_test(temp_case, spec_s_6);
   tcase_add_test(temp_case, spec_s_7);

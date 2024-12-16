@@ -30,7 +30,6 @@ void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 void *s21_trim(const char *src, const char *trim_chars);
 
-// additional funcs
 int is_trim_symbol(const char *trim_chars, char symbol);
 void s21_strcat(char *dest, const char *src);
 void s21_strcpy(char *dest, const char *src);

@@ -443,7 +443,7 @@ int process_width(spec *sp, const char *string, int i, va_list *perm) {
       sp->width *= -1;
       sp->left_allig = 1;
     }
-    i++;  //!
+    i++;
   } else {
     while (string[i] >= '0' && string[i] <= '9') {
       sp->width = sp->width * 10 + (string[i] - '0');
@@ -459,7 +459,7 @@ int process_accuracy(spec *sp, const char *string, int i, va_list *perm) {
     i++;
     if (string[i] == '*') {
       sp->accuracy = va_arg(*perm, int);
-      i++;  //!
+      i++;
     } else {
       sp->accuracy = 0;
       while (string[i] >= '0' && string[i] <= '9') {
@@ -548,19 +548,13 @@ void spec_d(char *buffer, va_list peremn, spec sp) {
     int temp = va_arg(peremn, int);
     temp3 = convert_signed_integer(temp, &sign);
   }
-
   if (temp3 != S21_NULL) {
     int temp_len = s21_strlen(temp3);
-
     if (sign) s21_strcat(buffer, "-");
-
-    // ведущие нули
     for (int i = sp.accuracy - temp_len; i > 0; i--) {
       s21_strcat(buffer, "0");
     }
-
     s21_strcat(buffer, temp3);
-
     free(temp3);
   }
 }

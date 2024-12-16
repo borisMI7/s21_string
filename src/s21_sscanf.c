@@ -18,7 +18,7 @@ void sset_default_spec(sspec *sp) {
 int sprocess_width(sspec *sp, const char *string, int i) {
   if (string[i] == '*') {
     sp->less = 1;
-    i++;  //!
+    i++;
   }
   while (string[i] >= '0' && string[i] <= '9') {
     sp->width = sp->width * 10 + (string[i] - '0');

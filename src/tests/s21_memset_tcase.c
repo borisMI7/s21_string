@@ -1,12 +1,5 @@
 #include "suite_test_runner.h"
 
-// void *s21_memset(void *str, int c, s21_size_t n) {
-//   if (str == S21_NULL || n < 1) return str;
-//   char *p = (char *)str;
-//   while (n-- > 0) *(p++) = c;
-//   return str;
-// }
-
 START_TEST(s21_memset_test_number_1) {
   char str1[] = "Aboba", str2[] = "Aboba";
   ck_assert_str_eq(memset(str1, 'a', 5), s21_memset(str2, 'a', 5));
