@@ -97,31 +97,60 @@ int main() {
   n2 = s21_sprintf(str2, "here is the number: %010u", 1234);
   n1 = sprintf(str1, "here is the number: %%%%%%%%%%%% %d", 1234);
   n2 = s21_sprintf(str2, "here is the number: %%%%%%%%%%%% %d", 1234);
-  n1 = sprintf(str1, "here is the number: %5.g %5.G", 2.431431412, -4.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %5.g %5.G", 2.431431412, -4.345678908765);
-  n1 = sprintf(str1, "here is the number: %5.0g %5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %5.0g %5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %-5.0g %-5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %-5.0g %-5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %-#5.0g %-#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %-#5.0g %-#5.0G", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: % -#*.0g % -#*.0G", 50, 123423421431.431431412, 50, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: % -#*.0g % -#*.0G", 50, 123423421431.431431412, 50, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %+05.3g %+05.3lG", 123423421431.431431412, (double)-121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %+05.3g %+05.3lG", 123423421431.431431412, (double)-121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %+100.3g %+100.3G", 123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %5.g %5.G", 2.431431412,
+               -4.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %5.g %5.G", 2.431431412,
+                   -4.345678908765);
+  n1 = sprintf(str1, "here is the number: %5.0g %5.0G", 123423421431.431431412,
+               -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %5.0g %5.0G",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %-5.0g %-5.0G",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %-5.0g %-5.0G",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %-#5.0g %-#5.0G",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %-#5.0g %-#5.0G",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: % -#*.0g % -#*.0G", 50,
+               123423421431.431431412, 50, -121232124554534334.345678908765);
+  n2 =
+      s21_sprintf(str2, "here is the number: % -#*.0g % -#*.0G", 50,
+                  123423421431.431431412, 50, -121232124554534334.345678908765);
+  n1 =
+      sprintf(str1, "here is the number: %+05.3g %+05.3lG",
+              123423421431.431431412, (double)-121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+05.3g %+05.3lG",
+                   123423421431.431431412,
+                   (double)-121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %+100.3g %+100.3G",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+100.3g %+100.3G",
+                   123423421431.431431412, -121232124554534334.345678908765);
 
-  n1 = sprintf(str1, "here is the number: %+-5.3e %+-5.3E", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %+-5.3e %+-5.3E", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: % -#5.0e % -#5.0E", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: % -#5.0e % -#5.0E", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: % -#*.*e % -#*.*E", 50, 4, 123423421431.431431412, 50, 15, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: % -#*.*e % -#*.*E", 50, 4, 123423421431.431431412, 50, 15, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %+100.3e %+100.3E", 123423421431.431431412, -121232124554534334.345678908765);
-  n2 = s21_sprintf(str2, "here is the number: %+100.3e %+100.3E", 123423421431.431431412, -121232124554534334.345678908765);
-  n1 = sprintf(str1, "here is the number: %Le %LE", (long double)56e-28, (long double)-56e278);
-  n2 = s21_sprintf(str2, "here is the number: %Le %LE", (long double)56e-28, (long double)-56e278);
+  n1 = sprintf(str1, "here is the number: %+-5.3e %+-5.3E",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+-5.3e %+-5.3E",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: % -#5.0e % -#5.0E",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#5.0e % -#5.0E",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 =
+      sprintf(str1, "here is the number: % -#*.*e % -#*.*E", 50, 4,
+              123423421431.431431412, 50, 15, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: % -#*.*e % -#*.*E", 50, 4,
+                   123423421431.431431412, 50, 15,
+                   -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %+100.3e %+100.3E",
+               123423421431.431431412, -121232124554534334.345678908765);
+  n2 = s21_sprintf(str2, "here is the number: %+100.3e %+100.3E",
+                   123423421431.431431412, -121232124554534334.345678908765);
+  n1 = sprintf(str1, "here is the number: %Le %LE", (long double)56e-28,
+               (long double)-56e278);
+  n2 = s21_sprintf(str2, "here is the number: %Le %LE", (long double)56e-28,
+                   (long double)-56e278);
   n1 = sprintf(str1, "here is the number: %-30p", &n1);
   n2 = s21_sprintf(str2, "here is the number: %-30p", &n1);
   n1 = sprintf(str1, "here is the number: %-5p", &n1);
@@ -131,13 +160,16 @@ int main() {
   n1 = sprintf(str1, "here is the number: %-#10.5x %-#10.5X", 6543, -543);
   n2 = s21_sprintf(str2, "here is the number: %-#10.5x %-#10.5X", 6543, -543);
   n1 = sprintf(str1, "here is the number: %0hx %0lX", (short)6543, (long)-543);
-  n2 = s21_sprintf(str2, "here is the number: %0hx %0lX", (short)6543, (long)-543);
+  n2 = s21_sprintf(str2, "here is the number: %0hx %0lX", (short)6543,
+                   (long)-543);
   n1 = sprintf(str1, "here is the number: %-10.o %-10.0o", 6543, -543);
   n2 = s21_sprintf(str2, "here is the number: %-10.o %-10.0o", 6543, -543);
   n1 = sprintf(str1, "here is the number: %-#10.5o %-#10.5o", 6543, -543);
   n2 = s21_sprintf(str2, "here is the number: %-#10.5o %-#10.5o", 6543, -543);
-  n1 = sprintf(str1, "here is the number: %*.*o %*.*o", 15, 10, 6543, -15, 10, -543);
-  n2 = s21_sprintf(str2, "here is the number: %*.*o %*.*o", 15, 10, 6543, -15, 10, -543);
+  n1 = sprintf(str1, "here is the number: %*.*o %*.*o", 15, 10, 6543, -15, 10,
+               -543);
+  n2 = s21_sprintf(str2, "here is the number: %*.*o %*.*o", 15, 10, 6543, -15,
+                   10, -543);
   printf("%s\n%s", str1, str2);
   return 0;
 }

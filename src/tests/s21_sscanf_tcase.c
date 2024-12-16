@@ -24,7 +24,7 @@ END_TEST
 
 START_TEST(sspec_c_3) {
   char str[] = "g d a";
-  char c1 = 0, c2 = 0, c3= 0, c4 = 0;
+  char c1 = 0, c2 = 0, c3 = 0, c4 = 0;
   int n1 = 0, n2 = 0;
   n1 = sscanf(str, "%c %c", &c1, &c3);
   n2 = s21_sscanf(str, "%c %c", &c2, &c4);
@@ -36,7 +36,7 @@ END_TEST
 
 START_TEST(sspec_d_1) {
   char str[] = "+52 .890 -134";
-  int c1 = 0, c2 = 0, c3= 0, c4 = 0, c5 = 0, c6 = 0;
+  int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0;
   int n1 = 0, n2 = 0;
   n1 = sscanf(str, "%d %d %d", &c1, &c3, &c5);
   n2 = s21_sscanf(str, "%d %d %d", &c2, &c4, &c6);
@@ -49,7 +49,7 @@ END_TEST
 
 START_TEST(sspec_d_2) {
   char str[] = "+52 .890 -134";
-  int c1 = 0, c2 = 0, c3= 0, c4 = 0, c5 = 0, c6 = 0;
+  int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0;
   int n1 = 0, n2 = 0;
   n1 = sscanf(str, "%1d %*d %d", &c1, &c3);
   n2 = s21_sscanf(str, "%1d %*d %d", &c2, &c4);

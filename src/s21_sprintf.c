@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "s21_string.h"
 
 #if defined(__linux__)
@@ -7,7 +8,8 @@
 #define PNULLERR "0x0"
 #endif
 typedef long double s21_ldouble;
-typedef unsigned long int s21_uint; // исправил тип переменной, так как мы постоянно её используем
+typedef unsigned long int
+    s21_uint;  // исправил тип переменной, так как мы постоянно её используем
 typedef long int s21_lint;
 typedef short int s21_sint;
 
@@ -77,7 +79,8 @@ int need_sign(spec *sp) {
 
 void handle_numeric_specifiers(spec *sp, char **result, size_t str_len,
                                size_t *result_len, size_t sign_size) {
-  // printf("\nHANDLE NUMERIC BEFORE REALLOC. str_len: %ld, result: '%s'\n\n", str_len, *result);
+  // printf("\nHANDLE NUMERIC BEFORE REALLOC. str_len: %ld, result: '%s'\n\n",
+  // str_len, *result);
   if (need_sign(sp)) {
     char sign = sp->print_plus ? '+' : ' ';
     if (sp->left_allig) {
@@ -88,7 +91,7 @@ void handle_numeric_specifiers(spec *sp, char **result, size_t str_len,
       // printf("\nAFTER FILL ZEROES: '%s'\n", *result);
     } else {
       // printf("\nWITHOUT SHIFT: '%s'\n", *result);
-      (*result)[*result_len - str_len-1] = sign;
+      (*result)[*result_len - str_len - 1] = sign;
     }
   } else if (need_hash_sign(sp)) {
     if (sp->left_allig) {
@@ -125,25 +128,29 @@ char *format_string(spec *sp, char *buff) {
       sign_size = 2;
     }
     if (padding_size >= sign_size) padding_size -= sign_size;
-    // printf("\nNEED SIGN: result padding_size: %ld, sign_size: %ld", padding_size, sign_size);
+    // printf("\nNEED SIGN: result padding_size: %ld, sign_size: %ld",
+    // padding_size, sign_size);
   }
 
   size_t result_size = str_len + padding_size + sign_size;
 
-  // printf("\nFORMAT STRING. str_len: %ld, padding_size: %ld, sign_size: %ld, result_size: %ld\n", str_len, padding_size, sign_size, result_size);
+  // printf("\nFORMAT STRING. str_len: %ld, padding_size: %ld, sign_size: %ld,
+  // result_size: %ld\n", str_len, padding_size, sign_size, result_size);
   char *result = calloc(result_size + 1, sizeof(char));
   if (result != S21_NULL) {
     s21_strcpy(result, buff);
- 
+
     char pad_char = (sp->field_zero && !sp->left_allig) ? '0' : ' ';
     apply_padding(&result, str_len, sign_size + padding_size, pad_char,
                   sp->left_allig);
-    // printf("\nAFTER APPLY PADDING. curr_len: %ld, result: '%s'\n", str_len, result);
+    // printf("\nAFTER APPLY PADDING. curr_len: %ld, result: '%s'\n", str_len,
+    // result);
 
     if (sign_size != 0) {
       handle_numeric_specifiers(sp, &result, str_len, &result_size, sign_size);
     }
-    // printf("\nAFTER HANDLE NUMERIC. curr_len: %ld, result: '%s'\n", str_len, result);
+    // printf("\nAFTER HANDLE NUMERIC. curr_len: %ld, result: '%s'\n", str_len,
+    // result);
 
     result[result_size] = '\0';
   }
@@ -249,15 +256,19 @@ char *my_uitoa(s21_uint num, char *str) {
 }
 
 // Преобразование чисел с плавающей точкой
-char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) { //  много испрвлений направленные на отрицательные числа
+char *my_gftoa(
+    long double num, int prec, int zero_y_n,
+    int hash_spec) {  //  много испрвлений направленные на отрицательные числа
   if (prec < 0) return S21_NULL;
-  int sign = 0; // переменная которая запомнит отрицательное ли число
+  int sign = 0;  // переменная которая запомнит отрицательное ли число
   if (num < 0) {
     sign = 1;
-    num *= -1; //необходимо, так как дальнейшие функции будут рабоатать не корректно
+    num *= -1;  // необходимо, так как дальнейшие функции будут рабоатать не
+                // корректно
   }
 
-  long int integer_part = (long int)num; // поправил так как могли возникнуть ошибки
+  long int integer_part =
+      (long int)num;  // поправил так как могли возникнуть ошибки
   long double fract_part = fabsl(num - integer_part);
   s21_size_t int_len = s21_intlen(integer_part);
   s21_size_t total_len = int_len + prec + 2;
@@ -273,9 +284,11 @@ char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) { //  м�
     fract_part -= 1;
   }
 
-  if(sign) integer_part *= -1; // возвращаем минус
-  if(integer_part == 0 && sign) s21_strcat(str, "-0"); // исправлена потеря минуса, если целых чисел нет
-  else my_itoa(integer_part, str);
+  if (sign) integer_part *= -1;  // возвращаем минус
+  if (integer_part == 0 && sign)
+    s21_strcat(str, "-0");  // исправлена потеря минуса, если целых чисел нет
+  else
+    my_itoa(integer_part, str);
   int zero = 0;
   char *fract_str = NULL;
   if (prec < 14) {
@@ -336,7 +349,10 @@ long double count_e(long double num, int prec, int *e) {
   return num;
 }
 
-char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) { // добавли проверку на случай если у нас три числа в научной нотации / поравлена проблема при округлении
+char *etoa(
+    long double num, int prec, int e_or_E, int e_or_g,
+    int hash_spec) {  // добавли проверку на случай если у нас три числа в
+                      // научной нотации / поравлена проблема при округлении
   int e = 0;
   int sign_e = 1;
   int sign = 1;
@@ -347,22 +363,27 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) { /
   if (num < 1.0 && num != 0.0) sign_e = 0;
 
   num = count_e(num, prec, &e);
-  if(e == 0) sign_e = 1; //   случай если цифр в научной нотации нет, то знак должен быть плюсом
+  if (e == 0)
+    sign_e = 1;  //   случай если цифр в научной нотации нет, то знак должен
+                 //   быть плюсом
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
-  char *result = malloc((s21_strlen(temp) + 6) * sizeof(char)); //temp + "E+" + "100" + '\0'
+  char *result = malloc((s21_strlen(temp) + 6) *
+                        sizeof(char));  // temp + "E+" + "100" + '\0'
   s21_memset(result, 0, (s21_strlen(temp) + 6));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
-  s21_strcat(result, sign_e ? "+" : "-"); 
-  if(e < 100 && e > -100) { // условие проверяющие количество цифр в научной нотации
-    char number[3] = {(e / 10 % 10) + '0', (e % 10) + '0'}; 
+  s21_strcat(result, sign_e ? "+" : "-");
+  if (e < 100 &&
+      e > -100) {  // условие проверяющие количество цифр в научной нотации
+    char number[3] = {(e / 10 % 10) + '0', (e % 10) + '0'};
     s21_strcat(result, number);
-  } else { // случай если в е имее > 2 цифр
-    char number[4] = {(e / 10 / 10 % 10) + '0', (e / 10 % 10) + '0', (e % 10) + '0'}; 
+  } else {  // случай если в е имее > 2 цифр
+    char number[4] = {(e / 10 / 10 % 10) + '0', (e / 10 % 10) + '0',
+                      (e % 10) + '0'};
     s21_strcat(result, number);
   }
-  
+
   if (temp) {
     free(temp);
     temp = S21_NULL;
@@ -371,7 +392,7 @@ char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) { /
   return (result);
 }
 
-int chackE(double num, int prec, int *e) { // исправлена проверка
+int chackE(double num, int prec, int *e) {  // исправлена проверка
   if (num == 0.0) return 0;
   *e = 0;
   int sign_e = 1;
@@ -380,7 +401,10 @@ int chackE(double num, int prec, int *e) { // исправлена провер�
   if (num < 1.0) sign_e = 0;
   num = count_e(num, prec - 1, e);
 
-  return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4)) ? 1 : 0; // тут добавилось условие, что первый вариант срабатывает только если sign_e == 1
+  return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4))
+             ? 1
+             : 0;  // тут добавилось условие, что первый вариант срабатывает
+                   // только если sign_e == 1
 }
 
 char *my_xtoa(unsigned long num, char *str, int x_or_X) {
@@ -664,7 +688,8 @@ int check_INF_NAN(char *buffer, long double temp, spec sp) {
   return res;
 }
 
-void spec_g_G(char *buffer, va_list *peremn, spec sp) { // вытащил условие 0 точности
+void spec_g_G(char *buffer, va_list *peremn,
+              spec sp) {  // вытащил условие 0 точности
   if (sp.accuracy < 0) sp.accuracy = 6;
   long double temp;
   if (sp.spec_size == 'a') {
@@ -674,7 +699,7 @@ void spec_g_G(char *buffer, va_list *peremn, spec sp) { // вытащил усл
   }
   char *temp2 = S21_NULL;
   int e = 0;
-  if (sp.accuracy == 0) sp.accuracy = 1; // это условие было передвинуто
+  if (sp.accuracy == 0) sp.accuracy = 1;  // это условие было передвинуто
   if (check_INF_NAN(buffer, (long double)temp, sp) || isinf(temp)) {
     temp = 0;
   } else if (chackE(temp, sp.accuracy, &e)) {
