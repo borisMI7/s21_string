@@ -1,10 +1,10 @@
 #ifndef S21_STRING_H
 #define S21_STRING_H
 
-#include <stdlib.h>
-#include <stdarg.h>
 #include <limits.h>
 #include <math.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
 #define S21_NULL ((void *)0)
 

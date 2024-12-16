@@ -83,7 +83,6 @@ START_TEST(sspec_s_2) {
 }
 END_TEST
 
-
 START_TEST(sspec_s_3) {
   char str[] = "aboba abob";
   char s1[200] = {0}, s2[200] = {0}, s3[200] = {0}, s4[200] = {0};

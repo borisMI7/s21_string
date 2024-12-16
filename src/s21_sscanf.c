@@ -1,7 +1,6 @@
 
 #include "s21_string.h"
 
-
 typedef struct sspec {
   size_t width;
   int less;
@@ -97,7 +96,6 @@ int my_atoi(const char *str, int *j, int width, int *error) {
 
   return result * sign;
 }
-
 
 long double my_pow10(int n) {
   if (n == 0) return 1;
@@ -255,8 +253,10 @@ void *my_atop(const char *str, int *j, int width, int *error) {
     i += 2;
   }
   unsigned long long address = 0;
-  while (((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'f') ||
-         (str[i] >= 'A' && str[i] <= 'F')) && flag) {
+  while (((str[i] >= '0' && str[i] <= '9') ||
+          (str[i] >= 'a' && str[i] <= 'f') ||
+          (str[i] >= 'A' && str[i] <= 'F')) &&
+         flag) {
     address = address * 16;
     if (str[i] >= '0' && str[i] <= '9') {
       address += str[i] - '0';
@@ -298,7 +298,6 @@ int sspec_d(char const *str, va_list *peremn, sspec *sp, int *j) {
 
   return error;
 }
-
 
 int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
   s21_size_t length = s21_strlen(str + (*j));
@@ -434,11 +433,9 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
     char *temp = va_arg(*peremn, char *);
     *temp = '%';
   } else if (sp->spec == 'g') {
-    error =
-        sspec_e_E(str, peremn, sp, j);
+    error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'G') {
-    error =
-        sspec_e_E(str, peremn, sp, j);
+    error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'e') {
     error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'E') {

@@ -6,8 +6,7 @@
 #define PNULLERR "0x0"
 #endif
 typedef long double s21_ldouble;
-typedef unsigned long int
-    s21_uint;
+typedef unsigned long int s21_uint;
 typedef long int s21_lint;
 typedef short int s21_sint;
 
@@ -210,9 +209,7 @@ char *my_uitoa(s21_uint num, char *str) {
   return str;
 }
 
-char *my_gftoa(
-    long double num, int prec, int zero_y_n,
-    int hash_spec) {
+char *my_gftoa(long double num, int prec, int zero_y_n, int hash_spec) {
   if (prec < 0) return S21_NULL;
   int sign = 0;
   if (num < 0) {
@@ -220,8 +217,7 @@ char *my_gftoa(
     num *= -1;
   }
 
-  long int integer_part =
-      (long int)num;
+  long int integer_part = (long int)num;
   long double fract_part = fabsl(num - integer_part);
   s21_size_t int_len = s21_intlen(integer_part);
   s21_size_t total_len = int_len + prec + 2;
@@ -302,9 +298,7 @@ long double count_e(long double num, int prec, int *e) {
   return num;
 }
 
-char *etoa(
-    long double num, int prec, int e_or_E, int e_or_g,
-    int hash_spec) {
+char *etoa(long double num, int prec, int e_or_E, int e_or_g, int hash_spec) {
   int e = 0;
   int sign_e = 1;
   int sign = 1;
@@ -315,18 +309,15 @@ char *etoa(
   if (num < 1.0 && num != 0.0) sign_e = 0;
 
   num = count_e(num, prec, &e);
-  if (e == 0)
-    sign_e = 1;
+  if (e == 0) sign_e = 1;
   num *= sign;
   char *temp = my_gftoa(num, prec, e_or_g, hash_spec);
-  char *result = malloc((s21_strlen(temp) + 6) *
-                        sizeof(char));
+  char *result = malloc((s21_strlen(temp) + 6) * sizeof(char));
   s21_memset(result, 0, (s21_strlen(temp) + 6));
   s21_strcat(result, temp);
   s21_strcat(result, e_or_E ? "E" : "e");
   s21_strcat(result, sign_e ? "+" : "-");
-  if (e < 100 &&
-      e > -100) {
+  if (e < 100 && e > -100) {
     char number[3] = {(e / 10 % 10) + '0', (e % 10) + '0'};
     s21_strcat(result, number);
   } else {
@@ -352,9 +343,7 @@ int chackE(double num, int prec, int *e) {
   if (num < 1.0) sign_e = 0;
   num = count_e(num, prec - 1, e);
 
-  return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4))
-             ? 1
-             : 0;
+  return ((*e >= prec && sign_e == 1) || (sign_e == 0 && *e > 4)) ? 1 : 0;
 }
 
 char *my_xtoa(unsigned long num, char *str, int x_or_X) {
@@ -636,8 +625,7 @@ int check_INF_NAN(char *buffer, long double temp, spec sp) {
   return res;
 }
 
-void spec_g_G(char *buffer, va_list *peremn,
-              spec sp) {
+void spec_g_G(char *buffer, va_list *peremn, spec sp) {
   if (sp.accuracy < 0) sp.accuracy = 6;
   long double temp;
   if (sp.spec_size == 'a') {
