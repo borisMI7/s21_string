@@ -1437,9 +1437,8 @@ END_TEST
 START_TEST(spec_p_2) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  char *pointer = "ABOAB";
-  n1 = sprintf(str1, "here is the number: %p", pointer);
-  n2 = s21_sprintf(str2, "here is the number: %p", pointer);
+  n1 = sprintf(str1, "here is the number: %p", &n1);
+  n2 = s21_sprintf(str2, "here is the number: %p", &n1);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1459,9 +1458,8 @@ END_TEST
 START_TEST(spec_p_4) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  char *pointer = "ABOAB";
-  n1 = sprintf(str1, "here is the number: %5p", pointer);
-  n2 = s21_sprintf(str2, "here is the number: %5p", pointer);
+  n1 = sprintf(str1, "here is the number: %5p", &n1);
+  n2 = s21_sprintf(str2, "here is the number: %5p", &n1);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1470,9 +1468,8 @@ END_TEST
 START_TEST(spec_p_5) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  char *pointer = "ABOAB";
-  n1 = sprintf(str1, "here is the number: %-30p", pointer);
-  n2 = s21_sprintf(str2, "here is the number: %-30p", pointer);
+  n1 = sprintf(str1, "here is the number: %-30p", &n1);
+  n2 = s21_sprintf(str2, "here is the number: %-30p", &n1);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1481,9 +1478,8 @@ END_TEST
 START_TEST(spec_p_6) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  char *pointer = "ABOAB";
-  n1 = sprintf(str1, "here is the number: %-5p", pointer);
-  n2 = s21_sprintf(str2, "here is the number: %-5p", pointer);
+  n1 = sprintf(str1, "here is the number: %-5p", &n1);
+  n2 = s21_sprintf(str2, "here is the number: %-5p", &n1);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }
@@ -1492,9 +1488,8 @@ END_TEST
 START_TEST(spec_p_7) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
   int n1 = 0, n2 = 0;
-  char *pointer = "ABOAB";
-  n1 = sprintf(str1, "here is the number: %*p", -5, pointer);
-  n2 = s21_sprintf(str2, "here is the number: %*p", -5, pointer);
+  n1 = sprintf(str1, "here is the number: %*p", -5, &n1);
+  n2 = s21_sprintf(str2, "here is the number: %*p", -5, &n1);
   ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(n1, n2);
 }

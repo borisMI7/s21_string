@@ -1,13 +1,11 @@
 #include <stdio.h>
-// #include <string.h>
-/*Изменена переменная и функции: 
-  my_gftoa
-  etoa
-  chackE
-  spec_g_G
- */
 #include "s21_string.h"
 
+#if defined(__linux__)
+#define PNULLERR "(nil)"
+#else
+#define PNULLERR "0x0"
+#endif
 typedef long double s21_ldouble;
 typedef unsigned long int s21_uint; // исправил тип переменной, так как мы постоянно её используем
 typedef long int s21_lint;
@@ -786,7 +784,7 @@ void spec_p(char *buffer, va_list *peremn) {
     vtoa(temp, temp2);
     s21_strcat(buffer, temp2);
   } else {
-    s21_strcat(buffer, "(nil)");
+    s21_strcat(buffer, PNULLERR);
   }
 }
 

@@ -482,8 +482,8 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
   } else if (sp->spec == 'd') {
     error = sspec_d(str, peremn, sp, j);
   } else if (sp->spec == 'f') {
-    // error = spec_f(str, peremn, sp, j); // надо исправить
-    error = sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это корректно
+    error = sspec_f(str, peremn, sp, j); // надо исправить
+    // error = sspec_e_E(str, peremn, sp, j);  // Проверить на сколько это корректно
   } else if (sp->spec == 's') {
     error = sspec_s(str, peremn, sp, j);
   } else if (sp->spec == 'u') {

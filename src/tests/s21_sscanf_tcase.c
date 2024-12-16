@@ -133,8 +133,8 @@ START_TEST(sspec_f_1) {
   double c3 = 0.0, c4 = 0.0;
   float c5 = 0.0, c6 = 0.0;
   int n1 = 0, n2 = 0;
-  n1 = sscanf(str, "%e %5le %2Le", &c5, &c3, &c1);
-  n2 = s21_sscanf(str, "%e %5le %2Le", &c6, &c4, &c2);
+  n1 = sscanf(str, "%f %5lf %2Lf", &c5, &c3, &c1);
+  n2 = s21_sscanf(str, "%f %5lf %2Lf", &c6, &c4, &c2);
   ck_assert_int_eq(c3, c4);
   ck_assert_int_eq(c5, c6);
   ck_assert_int_eq(c1, c2);
