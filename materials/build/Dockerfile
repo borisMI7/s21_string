@@ -1,4 +1,4 @@
-FROM quay.io/school21/alpine:3.16
+FROM alpine:3.20
 
 RUN apk --no-cache --upgrade add \
     git \
@@ -12,7 +12,9 @@ RUN apk --no-cache --upgrade add \
     cppcheck \
     alpine-sdk \
     pcre-dev \
-    clang-extra-tools
+    pcre2 \
+    clang18-extra-tools && \
+    ln -s /usr/lib/llvm18/bin/clang-format /usr/bin/clang-format 
 
 RUN mkdir /test 
 
