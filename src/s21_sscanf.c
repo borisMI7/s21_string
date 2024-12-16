@@ -364,16 +364,17 @@ int sspec_s(char const *str, va_list *peremn, sspec *sp, int *j) {
   s21_size_t length = s21_strlen(str + (*j));
   char *temp = malloc(length * sizeof(char));
   if (str == NULL) temp = NULL;
-  int in = 0;
+  int in = 0, flag = 1;
   if (temp != NULL) {
     s21_size_t i = 0;
-    while (1) {
+    while (flag) {
       temp[i++] = str[(*j)++];
       if (str[*j] == ' ' || str[*j] == '\0' ||
           (i >= sp->width && sp->width != 0))
-        break;
-      in = 1;
+        flag = 0;
+      if (flag) in = 1;
     }
+    temp[i] = '\0';
     if (!sp->less) {
       char *temp2 = va_arg(*peremn, char *);
       s21_strcat(temp2, temp);
