@@ -6,6 +6,7 @@
 #include "s21_memcpy_tcase.c"
 #include "s21_memset_tcase.c"
 #include "s21_sprintf_tcase.c"
+#include "s21_sscanf_tcase.c"
 #include "s21_strchr_tcase.c"
 #include "s21_strcspn_tcase.c"
 #include "s21_strerror_tcase.c"
@@ -54,6 +55,11 @@ int main(void) {
   srunner_free(runner);
   Suite *s = suite_create("s21_sprintf_testing");
   suite_add_tcase(s, s21_sprintf_create_tcase());
+  runner = srunner_create(s);
+  srunner_run_all(runner, CK_NORMAL);
+  srunner_free(runner);
+  s = suite_create("s21_sscanf_testing");
+  suite_add_tcase(s, s21_sscanf_create_tcase());
   runner = srunner_create(s);
   srunner_run_all(runner, CK_NORMAL);
   srunner_free(runner);

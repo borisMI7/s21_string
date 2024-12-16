@@ -36,5 +36,6 @@ void s21_strcat(char *dest, const char *src);
 void s21_strcpy(char *dest, const char *src);
 
 int s21_sprintf(char *str, const char *format, ...);
+int s21_sscanf(const char *str, const char *format, ...);
 
 #endif

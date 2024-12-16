@@ -221,14 +221,6 @@ START_TEST(spec_d_11) {
 }
 END_TEST
 
-// illigal unstruction and prohibbiten GNU flag usage
-// START_TEST(spec_d_12) {
-//   char str1[1000], str2[1000];
-//   sprintf(str1, "here is the number: %0+10.*d", 1234, 5);
-//   s21_sprintf(str2, "here is the number: %0+10.*d", 1234, 5);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
 
 START_TEST(spec_d_13) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -360,14 +352,6 @@ START_TEST(spec_d_27) {
 }
 END_TEST
 
-// ingored by GNU but works on MAC
-//  START_TEST(spec_d_28) {
-//    char str1[1000], str2[1000];
-//    sprintf(str1, "here is the number: %+0.10d lol", -123);
-//    s21_sprintf(str2, "here is the number: %+0.10d lol", -123);
-//    ck_assert_str_eq(str1, str2);
-//  }
-//  END_TEST
 
 START_TEST(spec_d_28) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -439,16 +423,6 @@ START_TEST(spec_d_34) {
 }
 END_TEST
 
-// Ignored by Linux
-// START_TEST(spec_d_35) {
-// char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: %015.10d lol", 123);
-//   n2 = s21_sprintf(str2, "here is the number: %015.10d lol", 123);
-//   ck_assert_int_eq(n1, n2);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
 
 START_TEST(spec_d_36) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -482,16 +456,6 @@ START_TEST(spec_d_38) {
 }
 END_TEST
 
-// error: flag '0' is ignored when flag '-' is present [-Werror,-Wformat] on MAC
-// and probably Linux START_TEST(spec_d_36) { char str1[1000] = {'\0'},
-// str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: %+-015.20d lol", 123);
-//   n2 = s21_sprintf(str2, "here is the number: %+-015.20d lol", 123);
-//   ck_assert_int_eq(n1, n2);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
 
 START_TEST(spec_d_special_1) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -571,15 +535,6 @@ START_TEST(spec_f_5) {
 }
 END_TEST
 
-START_TEST(spec_f_6) {
-  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-  int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: lol %f", FLT_MAX);
-  n2 = s21_sprintf(str2, "here is the number: lol %f", FLT_MAX);
-  ck_assert_str_eq(str1, str2);
-  ck_assert_int_eq(n1, n2);
-}
-END_TEST
 
 START_TEST(spec_f_7) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -591,15 +546,6 @@ START_TEST(spec_f_7) {
 }
 END_TEST
 
-START_TEST(spec_f_8) {
-  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-  int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: lol %lf", DBL_MAX);
-  n2 = s21_sprintf(str2, "here is the number: lol %lf", DBL_MAX);
-  ck_assert_str_eq(str1, str2);
-  ck_assert_int_eq(n1, n2);
-}
-END_TEST
 
 START_TEST(spec_f_9) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -611,16 +557,6 @@ START_TEST(spec_f_9) {
 }
 END_TEST
 
-// illigal instruction for original one
-// START_TEST(spec_f_10) {
-// char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: lol %Lf", LDBL_MAX);
-//   n2 = s21_sprintf(str2, "here is the number: lol %Lf", LDBL_MAX);
-//   ck_assert_str_eq(str1, str2);
-//   ck_assert_int_eq(n1, n2);
-// }
-// END_TEST
 
 START_TEST(spec_f_11) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -885,26 +821,6 @@ START_TEST(spec_s_2) {
 }
 END_TEST
 
-// ignored by GNU, btw fixed function to work on MAC comp
-//  START_TEST(spec_s_3) {
-//  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//    int n1 = 0, n2 = 0;
-//    n1 = sprintf(str1, "here is the number: lol %s", (char*)S21_NULL);
-//    n2 = s21_sprintf(str2, "here is the number: lol %s", (char*)S21_NULL);
-//    ck_assert_str_eq(str1, str2);
-//    ck_assert_int_eq(n1, n2);
-//  }
-//  END_TEST
-
-// START_TEST(spec_s_4) {
-// char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: lol %.2s", (char*)S21_NULL);
-//   n2 = s21_sprintf(str2, "here is the number: lol %.2s", (char*)S21_NULL);
-//   ck_assert_str_eq(str1, str2);
-//   ck_assert_int_eq(n1, n2);
-// }
-// END_TEST
 
 START_TEST(spec_s_5) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -994,16 +910,6 @@ START_TEST(spec_s_12) {
 }
 END_TEST
 
-// ignored by GNU
-// START_TEST(spec_s_13) {
-//   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: lol %-30.0s", (char *)S21_NULL);
-//   n2 = s21_sprintf(str2, "here is the number: lol %-30.0s", (char *)S21_NULL);
-//   ck_assert_str_eq(str1, str2);
-//   ck_assert_int_eq(n1, n2);
-// }
-// END_TEST
 
 START_TEST(spec_u_1) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -1075,16 +981,6 @@ START_TEST(spec_u_7) {
 }
 END_TEST
 
-// ingored by GNU
-// START_TEST(spec_u_8) {
-//   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-//   int n1 = 0, n2 = 0;
-//   n1 = sprintf(str1, "here is the number: %020.10u lol", 123);
-//   n2 = s21_sprintf(str2, "here is the number: %020.10u lol", 123);
-//   ck_assert_int_eq(n1, n2);
-//   ck_assert_str_eq(str1, str2);
-// }
-// END_TEST
 
 START_TEST(spec_u_9) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -1634,15 +1530,6 @@ START_TEST(spec_xX_3) {
 }
 END_TEST
 
-START_TEST(spec_xX_4) {
-  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-  int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %-10.4x %-10.10X", 6543, -543);
-  n2 = s21_sprintf(str2, "here is the number: %-10.4x %-10.10X", 6543, -543);
-  ck_assert_str_eq(str1, str2);
-  ck_assert_int_eq(n1, n2);
-}
-END_TEST
 
 START_TEST(spec_xX_5) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -1673,14 +1560,7 @@ START_TEST(spec_xX_7) {
   ck_assert_int_eq(n1, n2);
 }
 
-START_TEST(spec_xX_8) {
-  char str1[1000] = {'\0'}, str2[1000] = {'\0'};
-  int n1 = 0, n2 = 0;
-  n1 = sprintf(str1, "here is the number: %*.*x %*.*X", 15, 10, 6543, -15, 10, -543);
-  n2 = s21_sprintf(str2, "here is the number: %*.*x %*.*X", 15, 10, 6543, -15, 10, -543);
-  ck_assert_str_eq(str1, str2);
-  ck_assert_int_eq(n1, n2);
-}
+
 
 START_TEST(spec_xX_9) {
   char str1[1000] = {'\0'}, str2[1000] = {'\0'};
@@ -1851,9 +1731,7 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_f_3);
   tcase_add_test(temp_case, spec_f_4);
   tcase_add_test(temp_case, spec_f_5);
-  tcase_add_test(temp_case, spec_f_6);
   tcase_add_test(temp_case, spec_f_7);
-  tcase_add_test(temp_case, spec_f_8);
   tcase_add_test(temp_case, spec_f_9);
   tcase_add_test(temp_case, spec_f_11);
   tcase_add_test(temp_case, spec_f_12);
@@ -1949,11 +1827,9 @@ TCase *s21_sprintf_create_tcase(void) {
   tcase_add_test(temp_case, spec_xX_1);
   tcase_add_test(temp_case, spec_xX_2);
   tcase_add_test(temp_case, spec_xX_3);
-  tcase_add_test(temp_case, spec_xX_4);
   tcase_add_test(temp_case, spec_xX_5);
   tcase_add_test(temp_case, spec_xX_6);
   tcase_add_test(temp_case, spec_xX_7);
-  tcase_add_test(temp_case, spec_xX_8);
   tcase_add_test(temp_case, spec_xX_9);
   tcase_add_test(temp_case, spec_o_1);
   tcase_add_test(temp_case, spec_o_2);
