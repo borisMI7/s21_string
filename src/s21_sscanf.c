@@ -442,9 +442,9 @@ int scheck_spec(sspec *sp, va_list *peremn, char const *str, int *j) {
   } else if (sp->spec == 'E') {
     error = sspec_e_E(str, peremn, sp, j);
   } else if (sp->spec == 'x') {
-    sspec_x_X(str, peremn, sp, j);
+    error = sspec_x_X(str, peremn, sp, j);
   } else if (sp->spec == 'X') {
-    sspec_x_X(str, peremn, sp, j);
+    error = sspec_x_X(str, peremn, sp, j);
   } else if (sp->spec == 'o') {
     error = sspec_o(str, peremn, sp, j);
   } else if (sp->spec == 'p') {
